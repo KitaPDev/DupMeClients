@@ -1,11 +1,12 @@
 class Player:
-    username_currentOpponent = ''
+
+    username = ''
 
     def __init__(self, username):
         self.username = username
 
-    def match_new(self, username_currentOpponent):
-        self.username_currentOpponent = username_currentOpponent
+    def get_username(self):
+        return self.username
 
-    def match_leave(self):
-        self.username_currentOpponent = ''
+    def set_username(self, username):
+        self.username = username
