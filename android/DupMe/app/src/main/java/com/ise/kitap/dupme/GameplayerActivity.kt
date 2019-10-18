@@ -1,8 +1,6 @@
 package com.ise.kitap.dupme
 
-import android.media.AudioManager
 import android.media.SoundPool
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -42,71 +40,40 @@ class GameplayerActivity : AppCompatActivity() {
 
         val soundPool: SoundPool = SoundPool.Builder().setMaxStreams(5).build()
 
-        val sound_a = soundPool.load(this, R.raw.a, 1)
-        val sound_b = soundPool.load(this, R.raw.b, 1)
-        val sound_c = soundPool.load(this, R.raw.c, 1)
-        val sound_d = soundPool.load(this, R.raw.d, 1)
-        val sound_e = soundPool.load(this, R.raw.e, 1)
-        val sound_f = soundPool.load(this, R.raw.f, 1)
-        val sound_g = soundPool.load(this, R.raw.g, 1)
+        val soundA = soundPool.load(this, R.raw.a, 1)
+        val soundB = soundPool.load(this, R.raw.b, 1)
+        val soundC = soundPool.load(this, R.raw.c, 1)
+        val soundD = soundPool.load(this, R.raw.d, 1)
+        val soundE = soundPool.load(this, R.raw.e, 1)
+        val soundF = soundPool.load(this, R.raw.f, 1)
+        val soundG = soundPool.load(this, R.raw.g, 1)
 
+        c.setOnClickListener {
+            soundPool.play(soundC,1F, 1F, 0, 0 , 1F)
+        }
+        d.setOnClickListener {
+            soundPool.play(soundD,1F, 1F, 0, 0 , 1F)
+        }
+        e.setOnClickListener {
+            soundPool.play(soundE,1F, 1F, 0, 0 , 1F)
 
+        }
+        f.setOnClickListener {
+            soundPool.play(soundF,1F, 1F, 0, 0 , 1F)
 
-//        c.setOnClickListener {
-//            soundPool.play(sound_c,1F, 1F, 0, 0 , 1F)
-//
-//        }
-//        d.setOnClickListener {
-//            soundPool.play(sound_d,1F, 1F, 0, 0 , 1F)
-//
-//        }
-//        e.setOnClickListener {
-//            soundPool.play(sound_e,1F, 1F, 0, 0 , 1F)
-//
-//        }
-//        f.setOnClickListener {
-//            soundPool.play(sound_f,1F, 1F, 0, 0 , 1F)
-//
-//        }
-//        g.setOnClickListener {
-//            soundPool.play(sound_g,1F, 1F, 0, 0 , 1F)
-//
-//        }
-//        a.setOnClickListener {
-//            soundPool.play(sound_a,1F, 1F, 0, 0 , 1F)
-//
-//        }
-//        b.setOnClickListener {
-//            soundPool.play(sound_b,1F, 1F, 0, 0 , 1F)
-//
-//        }
-        c.setOnClickListener(View.OnClickListener {
-            soundPool.play(sound_c,1F, 1F, 0, 0 , 1F)
-        })
-        d.setOnClickListener(View.OnClickListener {
-            soundPool.play(sound_d,1F, 1F, 0, 0 , 1F)
-        })
-        e.setOnClickListener(View.OnClickListener {
-            soundPool.play(sound_e,1F, 1F, 0, 0 , 1F)
+        }
+        g.setOnClickListener {
+            soundPool.play(soundG,1F, 1F, 0, 0 , 1F)
 
-        })
-        f.setOnClickListener(View.OnClickListener {
-            soundPool.play(sound_f,1F, 1F, 0, 0 , 1F)
+        }
+        a.setOnClickListener {
+            soundPool.play(soundA,1F, 1F, 0, 0 , 1F)
 
-        })
-        g.setOnClickListener(View.OnClickListener {
-            soundPool.play(sound_g,1F, 1F, 0, 0 , 1F)
+        }
+        b.setOnClickListener {
+            soundPool.play(soundB,1F, 1F, 0, 0 , 1F)
 
-        })
-        a.setOnClickListener(View.OnClickListener {
-            soundPool.play(sound_a,1F, 1F, 0, 0 , 1F)
-
-        })
-        b.setOnClickListener(View.OnClickListener {
-            soundPool.play(sound_b,1F, 1F, 0, 0 , 1F)
-
-        })
-
+        }
 
 
     }
