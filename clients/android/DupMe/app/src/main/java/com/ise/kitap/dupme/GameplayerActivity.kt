@@ -16,11 +16,11 @@ class GameplayerActivity : AppCompatActivity() {
         val A3: Button = findViewById(R.id.A3)
         val B3: Button = findViewById(R.id.B3)
         val C3: Button = findViewById(R.id.C3)
-        val C4: Button = findViewById(R.id.C4)
         val D3: Button = findViewById(R.id.D3)
         val E3: Button = findViewById(R.id.E3)
         val F3: Button = findViewById(R.id.F3)
         val G3: Button = findViewById(R.id.G3)
+        val h: Button = findViewById(R.id.C4)
 
         A3.setOnClickListener(View.OnClickListener {
 
@@ -31,7 +31,7 @@ class GameplayerActivity : AppCompatActivity() {
         C3.setOnClickListener(View.OnClickListener {
 
         })
-        C4.setOnClickListener(View.OnClickListener {
+        h.setOnClickListener(View.OnClickListener {
 
         })
         D3.setOnClickListener(View.OnClickListener {
