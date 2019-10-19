@@ -5,62 +5,93 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".GameplayerActivity">
+    tools:context=".GamePlayerActivity">
 
-    <LinearLayout
+    <Button
+        android:id="@+id/btnD"
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:text="d"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnE"
+        app:layout_constraintStart_toEndOf="@+id/btnC" />
+
+    <Button
+        android:id="@+id/btnG"
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:text="g"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnA" />
+
+    <Button
+        android:id="@+id/btnE"
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:text="e"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnF" />
+
+    <Button
+        android:id="@+id/btnF"
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:text="f"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnG" />
+
+    <Button
+        android:id="@+id/btnA"
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:text="a"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnB" />
+
+    <Button
+        android:id="@+id/btnB"
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:text="b"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btnC"
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:text="c"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtUsernamePlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:weightSum="7"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:text="c"
-            android:id="@+id/c"
-            android:layout_weight="1"
-            android:layout_height="200dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:text="d"
-            android:id="@+id/d"
-            android:layout_weight="1"
-            android:layout_height="200dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:text="e"
-            android:id="@+id/e"
-            android:layout_weight="1"
-            android:layout_height="200dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:text="f"
-            android:id="@+id/f"
-            android:layout_weight="1"
-            android:layout_height="200dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:text="g"
-            android:id="@+id/g"
-            android:layout_weight="1"
-            android:layout_height="200dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:text="a"
-            android:id="@+id/a"
-            android:layout_weight="1"
-            android:layout_height="200dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:text="b"
-            android:id="@+id/b"
-            android:layout_weight="1"
-            android:layout_height="200dp"/>
-    </LinearLayout>
+        android:text="TextView"
+        tools:layout_editor_absoluteX="629dp"
+        tools:layout_editor_absoluteY="31dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

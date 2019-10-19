@@ -9,9 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FindMatchActivity"></activity>
+        <activity android:name=".FindMatchActivity"
+            android:screenOrientation="landscape"
+            ></activity>
         <activity
-            android:name=".GameplayerActivity"
+            android:name=".GamePlayerActivity"
             android:screenOrientation="landscape" />
         <activity
             android:name=".MainActivity"
