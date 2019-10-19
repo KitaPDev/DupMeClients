@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import kotlinx.android.synthetic.main.activity_scoreboard.*
 
 class ScoreboardActivity : AppCompatActivity() {
 
@@ -13,8 +14,7 @@ class ScoreboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scoreboard)
 
-        val button: Button = findViewById(R.id.button)
-        button.setOnClickListener(View.OnClickListener {
+        btnPlayAgain.setOnClickListener(View.OnClickListener {
             openGameplayer()
         })
 
@@ -22,7 +22,7 @@ class ScoreboardActivity : AppCompatActivity() {
     }
 
     private fun openGameplayer() {
-        val intent = Intent(this, GameplayerActivity::class.java)
+        val intent = Intent(this, GamePlayerActivity::class.java)
         startActivity(intent)
     }
 
