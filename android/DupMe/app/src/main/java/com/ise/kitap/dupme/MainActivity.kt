@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
 
         btnFindMatch.setOnClickListener {
             if(verifyUserInput()) {
-                openGamePlayer()
+                findMatch()
             }
         }
     }
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun openGamePlayer() {
+    private fun findMatch() {
         val intent = Intent(this, GamePlayerActivity::class.java)
         startActivity(intent)
     }
