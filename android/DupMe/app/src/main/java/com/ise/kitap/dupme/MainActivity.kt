@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    val username: String = ""
+    private var strUsername: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +21,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun verifyUserInput(): Boolean {
-        return edtUsername.text.isNotBlank()
+        strUsername = edtUsername.text.toString()
+
+
+
     }
 
     private fun openGamePlayer() {
