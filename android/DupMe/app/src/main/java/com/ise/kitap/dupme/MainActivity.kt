@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         strUsername = edtUsername.text.toString()
 
 
-
     }
 
     private fun findMatch() {
