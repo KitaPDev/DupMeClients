@@ -1,11 +1,10 @@
 package com.ise.kitap.dupme.lib
 
 import android.os.AsyncTask
-import java.net.Socket
 
 class AsyncSocketComm(tcpSocket: TCPSocket) : AsyncTask<String, Void, String>() {
 
-    var tcpSocket = TCPSocket()
+    var tcpSocket = TCPSocket("", 0)
 
     init{
         if(tcpSocket.isConnected()) {
@@ -15,7 +14,7 @@ class AsyncSocketComm(tcpSocket: TCPSocket) : AsyncTask<String, Void, String>() 
     }
 
     override fun doInBackground(vararg strData: String): String {
-        return tcpSocket.requestfromServer(strData.toString())
+        return tcpSocket.requestFromServer(strData.toString())
     }
 
     override fun onPreExecute() {

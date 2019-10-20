@@ -1,32 +1,34 @@
 package com.ise.kitap.dupme.lib
 
-import java.io.ObjectInputStream
-import java.io.ObjectOutputStream
+import java.io.DataInputStream
+import java.io.DataOutputStream
 import java.net.Socket
 
-class TCPSocket {
+class TCPSocket(p_strIPAddress: String, p_iPort: Int) {
 
     var socket = Socket()
 
-    fun establishConnection(p_strIPAddress: String, p_iPort: Int) {
-        socket = Socket(p_strIPAddress, p_iPort)
+    init {
+        if(p_strIPAddress.length > 7 && p_iPort != 0) {
+            socket = Socket(p_strIPAddress, p_iPort)
+        }
     }
 
-    fun txToServer(p_strData: String) {
+    fun sendToServer(p_strData: String) {
         if(socket.isConnected) {
-            var oos = ObjectOutputStream(socket.getOutputStream())
-            oos.writeUTF(p_strData)
-            oos.flush()
+            val dos = DataOutputStream(socket.getOutputStream())
+            dos.writeUTF(p_strData)
+            dos.flush()
 
         } else System.err.println("Unable to transmit data...Socket not yet connected!")
     }
 
-    fun requestfromServer(p_strData: String): String {
+    fun requestFromServer(p_strData: String): String {
         if(socket.isConnected) {
-            txToServer(p_strData)
+            sendToServer(p_strData)
 
-            var ois = ObjectInputStream(socket.getInputStream())
-            return ois.readUTF()
+            val dis = DataInputStream(socket.getInputStream())
+            return dis.readUTF()
 
         } else return "Unable to transmit data...Socket not yet connected!"
     }
