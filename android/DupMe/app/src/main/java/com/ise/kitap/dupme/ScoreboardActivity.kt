@@ -15,14 +15,14 @@ class ScoreboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_scoreboard)
 
         btnPlayAgain.setOnClickListener(View.OnClickListener {
-            openGameplayer()
+            goBackMainActivity()
         })
 
 
     }
 
-    private fun openGameplayer() {
-        val intent = Intent(this, GamePlayerActivity::class.java)
+    private fun goBackMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
 

@@ -1,12 +1,15 @@
 package com.ise.kitap.dupme
 
 import android.content.Intent
+import android.graphics.Color.rgb
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import com.ise.kitap.dupme.lib.AsyncSocketComm
 import com.ise.kitap.dupme.lib.TCPSocket
 import com.ise.kitap.dupme.lib.TCPSocketHandler
+import kotlinx.android.synthetic.main.activity_gameplayer.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -20,9 +23,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         btnFindMatch.setOnClickListener {
+            SetProgressBar()
             if(verifyUserInput()) {
                 findMatch()
             }
+        }
+        btnCancel.setOnClickListener {
+            cancelMatch()
         }
     }
 
@@ -49,6 +56,25 @@ class MainActivity : AppCompatActivity() {
     private fun findMatch() {
         val intent = Intent(this, FindMatchActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun SetProgressBar() {
+        loading.visibility = View.VISIBLE
+        loading.bringToFront()
+        btnCancel.visibility = View.VISIBLE
+        edtUsername.visibility = View.INVISIBLE
+        btnFindMatch.visibility = View.INVISIBLE
+        background.setBackgroundColor(rgb(211,211,211))
+
+    }
+
+    private fun cancelMatch(){
+        loading.visibility=View.INVISIBLE
+        btnCancel.visibility=View.INVISIBLE
+        edtUsername.visibility=View.VISIBLE
+        btnFindMatch.visibility=View.VISIBLE
+        background.setBackgroundColor(rgb(255,255,255))
+        edtUsername.bringToFront()
     }
 
 }
