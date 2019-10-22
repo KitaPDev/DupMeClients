@@ -29,10 +29,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnFindMatch.setOnClickListener {
-            SetProgressBar()
-            if(verifyUserInput()) {
-                findMatch()
-            }
+//            SetProgressBar()
+//            if(verifyUserInput()) {
+//                findMatch()
+//            }
+            val intent = Intent(this, GamePlayerActivity::class.java)
+            startActivity(intent)
         }
 
         btnCancel.setOnClickListener {

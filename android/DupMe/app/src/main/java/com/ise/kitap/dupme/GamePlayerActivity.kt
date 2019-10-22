@@ -3,6 +3,7 @@ package com.ise.kitap.dupme
 import android.media.SoundPool
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import kotlinx.android.synthetic.main.activity_gameplayer.*
 
 class GamePlayerActivity : AppCompatActivity() {
@@ -10,7 +11,7 @@ class GamePlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gameplayer)
-
+        setTime(10000)
         val soundPool: SoundPool = SoundPool.Builder().setMaxStreams(7).build()
 
         val soundA = soundPool.load(this, R.raw.a, 1)
@@ -50,5 +51,20 @@ class GamePlayerActivity : AppCompatActivity() {
 
 
     }
+
+    private fun setTime(long: Long){
+        val timer = object : CountDownTimer(long, 1000) {
+            override fun onFinish() {
+                Timer.text = "Next player turn"
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+                Timer.text = (millisUntilFinished/1000).toString() + "seconds"
+            }
+
+        }
+        timer.start()
+    }
+
 
 }
