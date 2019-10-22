@@ -5,6 +5,7 @@ import android.graphics.Color.rgb
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.animation.TranslateAnimation
 import android.widget.Toast
 import com.ise.kitap.dupme.lib.AsyncSocketComm
 import com.ise.kitap.dupme.lib.TCPSocket
@@ -21,6 +22,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        WelcomePage()
+
+        btnStart.setOnClickListener {
+            StartActivity()
+        }
 
         btnFindMatch.setOnClickListener {
             SetProgressBar()
@@ -28,6 +34,7 @@ class MainActivity : AppCompatActivity() {
                 findMatch()
             }
         }
+
         btnCancel.setOnClickListener {
             cancelMatch()
         }
@@ -75,6 +82,26 @@ class MainActivity : AppCompatActivity() {
         btnFindMatch.visibility=View.VISIBLE
         background.setBackgroundColor(rgb(255,255,255))
         edtUsername.bringToFront()
+    }
+
+    private fun WelcomePage(){
+        edtUsername.visibility = View.INVISIBLE
+        btnFindMatch.visibility = View.INVISIBLE
+    }
+
+    private fun StartActivity(){
+        edtUsername.visibility = View.VISIBLE
+        btnFindMatch.visibility = View.VISIBLE
+        btnStart.visibility = View.INVISIBLE
+        StartAnimation(edtUsername)
+        StartAnimation(btnFindMatch)
+    }
+
+    private fun StartAnimation(view: View) {
+        val animate = TranslateAnimation(0F, 0F, view.height.toFloat(), 0F)
+        animate.duration = 500
+        animate.fillAfter = true
+        view.startAnimation(animate)
     }
 
 }
