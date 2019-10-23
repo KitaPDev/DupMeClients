@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import com.ise.kitap.dupme.services.SocketService
+import kotlinx.android.synthetic.main.activity_find_match.*
 
 class FindMatchActivity : AppCompatActivity() {
 
@@ -20,6 +21,10 @@ class FindMatchActivity : AppCompatActivity() {
 
         val intentService = Intent(this, SocketService::class.java)
         bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
+
+        btnCancel_findMatch.setOnClickListener {
+            cancelMatch()
+        }
 
 
     }
@@ -43,5 +48,10 @@ class FindMatchActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         unbindService(serviceConnection)
+    }
+
+    private fun cancelMatch() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }

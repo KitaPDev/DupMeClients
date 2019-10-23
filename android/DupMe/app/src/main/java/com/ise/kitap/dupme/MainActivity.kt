@@ -12,7 +12,7 @@ import android.view.animation.TranslateAnimation
 import com.ise.kitap.dupme.lib.SharedPreference
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+open class MainActivity : AppCompatActivity() {
 
     var mBoundSocketService: SocketService? = null
     var isBound = false
@@ -21,7 +21,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        welcomePage()
+
+        //For welcomePage to show only once
+        if (WelcomePage.isAppStart){
+            btnStart_main.visibility = View.INVISIBLE
+        }else {
+            welcomePage()
+            WelcomePage.isAppStart = true
+        }
 
         val sharedPreference = SharedPreference(this)
 
@@ -44,9 +51,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        btnCancel_main.setOnClickListener {
-            cancelMatch()
-        }
     }
 
     private fun verifyUserInput(): Boolean {
@@ -91,22 +95,12 @@ class MainActivity : AppCompatActivity() {
     private fun setProgressBar() {
         prgBar_main.visibility = View.VISIBLE
         prgBar_main.bringToFront()
-        btnCancel_main.visibility = View.VISIBLE
         edtUsername_main.visibility = View.INVISIBLE
         btnFindMatch_main.visibility = View.INVISIBLE
         background.setBackgroundColor(rgb(211,211,211))
     }
 
-    private fun cancelMatch(){
-        prgBar_main.visibility=View.INVISIBLE
-        btnCancel_main.visibility=View.INVISIBLE
-        edtUsername_main.visibility=View.VISIBLE
-        btnFindMatch_main.visibility=View.VISIBLE
-        background.setBackgroundColor(rgb(255,255,255))
-        edtUsername_main.bringToFront()
-    }
-
-    private fun welcomePage(){
+    fun welcomePage(){
         edtUsername_main.visibility = View.INVISIBLE
         btnFindMatch_main.visibility = View.INVISIBLE
     }
@@ -115,16 +109,18 @@ class MainActivity : AppCompatActivity() {
         edtUsername_main.visibility = View.VISIBLE
         btnFindMatch_main.visibility = View.VISIBLE
         btnStart_main.visibility = View.INVISIBLE
-        startAnimation(edtUsername_main)
-        startAnimation(btnFindMatch_main)
+        startAnimationShow(edtUsername_main)
+        startAnimationShow(btnFindMatch_main)
     }
 
-    private fun startAnimation(view: View) {
+    private fun startAnimationShow(view: View) {
         val animate = TranslateAnimation(0F, 0F, view.height.toFloat(), 0F)
         animate.duration = 500
         animate.fillAfter = true
         view.startAnimation(animate)
     }
+
+
 }
 
 
