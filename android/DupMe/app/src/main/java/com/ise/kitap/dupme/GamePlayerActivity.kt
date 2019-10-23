@@ -11,7 +11,6 @@ class GamePlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gameplayer)
-
         val soundPool: SoundPool = SoundPool.Builder().setMaxStreams(7).build()
 
         val soundA = soundPool.load(this, R.raw.a, 1)
