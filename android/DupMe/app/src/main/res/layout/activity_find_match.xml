@@ -8,7 +8,7 @@
     tools:context=".FindMatchActivity">
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/prgBar_findMatch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,13 +19,13 @@
         app:layout_constraintVertical_bias="0.498" />
 
     <Button
-        android:id="@+id/cancel"
+        android:id="@+id/btnCancel_findMatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/prgBar_findMatch" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

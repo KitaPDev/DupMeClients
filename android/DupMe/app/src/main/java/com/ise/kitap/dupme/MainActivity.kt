@@ -25,14 +25,14 @@ class MainActivity : AppCompatActivity() {
 
         val sharedPreference = SharedPreference(this)
 
-        btnStart.setOnClickListener {
+        btnStart_main.setOnClickListener {
             startActivity()
         }
 
         val intentService = Intent(this, SocketService::class.java)
         bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
 
-        btnFindMatch.setOnClickListener {
+        btnFindMatch_main.setOnClickListener {
             setProgressBar()
             if(verifyUserInput()) {
 
@@ -44,13 +44,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        btnCancel.setOnClickListener {
+        btnCancel_main.setOnClickListener {
             cancelMatch()
         }
     }
 
     private fun verifyUserInput(): Boolean {
-        strUsername = edtUsername.text.toString()
+        strUsername = edtUsername_main.text.toString()
 
         if(strUsername.contains(" ")) {
             Toast.makeText(this, "Username must not contain whitespace!",
@@ -91,32 +91,32 @@ class MainActivity : AppCompatActivity() {
     private fun setProgressBar() {
         prgBar_main.visibility = View.VISIBLE
         prgBar_main.bringToFront()
-        btnCancel.visibility = View.VISIBLE
-        edtUsername.visibility = View.INVISIBLE
-        btnFindMatch.visibility = View.INVISIBLE
+        btnCancel_main.visibility = View.VISIBLE
+        edtUsername_main.visibility = View.INVISIBLE
+        btnFindMatch_main.visibility = View.INVISIBLE
         background.setBackgroundColor(rgb(211,211,211))
     }
 
     private fun cancelMatch(){
         prgBar_main.visibility=View.INVISIBLE
-        btnCancel.visibility=View.INVISIBLE
-        edtUsername.visibility=View.VISIBLE
-        btnFindMatch.visibility=View.VISIBLE
+        btnCancel_main.visibility=View.INVISIBLE
+        edtUsername_main.visibility=View.VISIBLE
+        btnFindMatch_main.visibility=View.VISIBLE
         background.setBackgroundColor(rgb(255,255,255))
-        edtUsername.bringToFront()
+        edtUsername_main.bringToFront()
     }
 
     private fun welcomePage(){
-        edtUsername.visibility = View.INVISIBLE
-        btnFindMatch.visibility = View.INVISIBLE
+        edtUsername_main.visibility = View.INVISIBLE
+        btnFindMatch_main.visibility = View.INVISIBLE
     }
 
     private fun startActivity(){
-        edtUsername.visibility = View.VISIBLE
-        btnFindMatch.visibility = View.VISIBLE
-        btnStart.visibility = View.INVISIBLE
-        startAnimation(edtUsername)
-        startAnimation(btnFindMatch)
+        edtUsername_main.visibility = View.VISIBLE
+        btnFindMatch_main.visibility = View.VISIBLE
+        btnStart_main.visibility = View.INVISIBLE
+        startAnimation(edtUsername_main)
+        startAnimation(btnFindMatch_main)
     }
 
     private fun startAnimation(view: View) {
