@@ -22,31 +22,42 @@ class GamePlayerActivity : AppCompatActivity() {
         val soundE = soundPool.load(this, R.raw.e, 1)
         val soundF = soundPool.load(this, R.raw.f, 1)
         val soundG = soundPool.load(this, R.raw.g, 1)
+        //Can use this function to light up button when the opposing player is clicking
+        //btnF.performClick()
 
         btnC.setOnClickListener {
             soundPool.play(soundC,1F, 1F, 0, 0 , 1F)
+            delayBetweenClicks()
+
         }
         btnD.setOnClickListener {
             soundPool.play(soundD,1F, 1F, 0, 0 , 1F)
+            delayBetweenClicks()
+
         }
         btnE.setOnClickListener {
             soundPool.play(soundE,1F, 1F, 0, 0 , 1F)
+            delayBetweenClicks()
 
         }
         btnF.setOnClickListener {
             soundPool.play(soundF,1F, 1F, 0, 0 , 1F)
+            delayBetweenClicks()
 
         }
         btnG.setOnClickListener {
             soundPool.play(soundG,1F, 1F, 0, 0 , 1F)
+            delayBetweenClicks()
 
         }
         btnA.setOnClickListener {
             soundPool.play(soundA,1F, 1F, 0, 0 , 1F)
+            delayBetweenClicks()
 
         }
         btnB.setOnClickListener {
             soundPool.play(soundB,1F, 1F, 0, 0 , 1F)
+            delayBetweenClicks()
 
         }
 
@@ -93,6 +104,22 @@ class GamePlayerActivity : AppCompatActivity() {
         enableButton(btnE)
         enableButton(btnF)
         enableButton(btnG)
+    }
+
+    //Set delay between clicks for better gaming experience
+    private fun delayBetweenClicks() {
+        disablePiano()
+        val timer = object : CountDownTimer(150, 1000) {
+            override fun onFinish() {
+                enablePiano()
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+            }
+
+        }
+        timer.start()
+
     }
 
 
