@@ -14,9 +14,13 @@ class ScoreboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scoreboard)
 
-        btnPlayAgain.setOnClickListener(View.OnClickListener {
+        btnPlayAgain.setOnClickListener {
             goBackMainActivity()
-        })
+        }
+
+        btnLeave.setOnClickListener {
+            goBackFindMatchActivity()
+        }
 
 
     }
@@ -24,6 +28,10 @@ class ScoreboardActivity : AppCompatActivity() {
     private fun goBackMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun goBackFindMatchActivity() {
+        startActivity(Intent(this, FindMatchActivity::class.java))
     }
 
 }

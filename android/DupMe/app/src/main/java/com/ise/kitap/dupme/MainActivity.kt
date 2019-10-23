@@ -33,7 +33,7 @@ open class MainActivity : AppCompatActivity() {
         val sharedPreference = SharedPreference(this)
 
         btnStart_main.setOnClickListener {
-            startActivity()
+            startMainActivity()
         }
 
         val intentService = Intent(this, SocketService::class.java)
@@ -105,7 +105,7 @@ open class MainActivity : AppCompatActivity() {
         btnFindMatch_main.visibility = View.INVISIBLE
     }
 
-    private fun startActivity(){
+    private fun startMainActivity(){
         edtUsername_main.visibility = View.VISIBLE
         btnFindMatch_main.visibility = View.VISIBLE
         btnStart_main.visibility = View.INVISIBLE
