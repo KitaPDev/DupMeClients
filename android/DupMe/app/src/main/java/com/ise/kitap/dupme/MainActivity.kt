@@ -1,23 +1,29 @@
 package com.ise.kitap.dupme
 
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.IBinder
 import android.widget.Toast
-import com.ise.kitap.dupme.lib.AsyncSocketComm
-import com.ise.kitap.dupme.lib.TCPSocket
-import com.ise.kitap.dupme.lib.TCPSocketHandler
+import com.ise.kitap.dupme.services.SocketService
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    var mBoundSocketService: SocketService? = null
+    var isBound = false
     private var strUsername: String = ""
-    private val tcpIP = "127.0.0.1"
-    private val tcpPORT = 54321
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val intent = Intent(this, SocketService::class.java)
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
+
 
         btnFindMatch.setOnClickListener {
             if(verifyUserInput()) {
@@ -35,22 +41,37 @@ class MainActivity : AppCompatActivity() {
             return false
         }
 
-        val tcpSocket = TCPSocket(tcpIP, tcpPORT)
-        val asyncSocket = AsyncSocketComm(tcpSocket)
-        val strData = "Player set_username " + edtUsername.text.toString()
+        var strResponse = mBoundSocketService?.requestFromServer(strUsername)
 
-        TCPSocketHandler.tcpSocket = tcpSocket
+        if(strResponse.equals("OK")) {
+            return true
+        }
 
-        asyncSocket.execute(strData).get()
-
-        return true
+        return false
     }
 
     private fun findMatch() {
         val intent = Intent(this, FindMatchActivity::class.java)
+        unbindService(serviceConnection)
         startActivity(intent)
     }
 
+    private val serviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            val binder = service as SocketService.LocalBinder
+            mBoundSocketService = binder.getService()
+            isBound = true
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isBound = false
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unbindService(serviceConnection)
+    }
 }
 
 

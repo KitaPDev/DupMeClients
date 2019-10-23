@@ -7,6 +7,7 @@ import kotlinx.android.synthetic.main.activity_gameplayer.*
 
 class GamePlayerActivity : AppCompatActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gameplayer)
