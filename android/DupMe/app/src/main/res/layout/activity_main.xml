@@ -39,7 +39,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <ProgressBar
-        android:id="@+id/loading"
+        android:id="@+id/prgBar_main"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:visibility="gone"
@@ -63,7 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/loading"
+        app:layout_constraintTop_toTopOf="@id/prgBar_main"
         app:layout_constraintVertical_bias="0.775" />
 
     <TextView
