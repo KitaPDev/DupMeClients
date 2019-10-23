@@ -2,24 +2,23 @@ package com.ise.kitap.dupme.services
 
 import android.app.Service
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Binder
 import android.os.IBinder
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import java.io.DataInputStream
-import java.io.DataOutputStream
-import java.net.Inet4Address
+import java.io.*
 import java.net.Socket
 
 class SocketService : Service() {
 
     private val myBinder = LocalBinder()
-    private val serverIP = "127.0.0.1"
+    private val serverIP = "192.168.1.108"
     private val serverPort = 54321
 
     var socket = Socket()
     var strData = ""
-    var dos: DataOutputStream? = null
-    var dis: DataInputStream? = null
+    var output: BufferedWriter? = null
+    var input: BufferedReader? = null
 
     inner class LocalBinder : Binder() {
         fun getService(): SocketService {
@@ -34,40 +33,31 @@ class SocketService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
-        if (intent != null) {
-           strData = intent.getStringExtra("clientMessage")
-        }
+//        if (intent != null) {
+//           strData = intent.getStringExtra("clientMessage")
+//        }
 
         Thread(ClientSocket()).start()
         return START_STICKY
     }
 
     fun requestFromServer(message: String): String {
-        dos = DataOutputStream(socket.getOutputStream())
-        if(dos != null) {
-            println("Send message: $message")
-            dos!!.writeUTF(message)
-            dos!!.flush()
-        }
-
-        dis = DataInputStream(socket.getInputStream())
-        return if(dis != null) {
-            dis!!.readUTF()
-
-        } else ""
+        return AsyncSocketComm().execute(message).get()
     }
 
     inner class ClientSocket : Runnable {
 
         override fun run() {
             try {
-                var serverAddress = Inet4Address.getByName(serverIP)
                 println("Client Connecting...")
 
-                socket = Socket(serverAddress, serverPort)
+                socket = Socket(serverIP, serverPort)
+
+                println("Connected!")
 
             } catch(e: Exception) {
                 println("Socket Error")
+                e.printStackTrace()
             }
         }
     }
@@ -88,5 +78,28 @@ class SocketService : Service() {
             e.printStackTrace()
         }
         socket = Socket()
+    }
+
+    inner class AsyncSocketComm : AsyncTask<String, Void, String>() {
+
+        override fun doInBackground(vararg strData: String): String {
+
+            output = BufferedWriter(OutputStreamWriter(socket.getOutputStream()))
+            if(output != null) {
+                var strMessage = strData[0]
+                println("Send message: $strMessage")
+                output!!.write(strMessage.toString())
+                output!!.newLine()
+                output!!.flush()
+            }
+
+            input = BufferedReader(InputStreamReader(socket.getInputStream()))
+            return if(input != null) {
+                var response = input!!.readText()
+                println("Response: $response")
+                response
+
+            } else ""
+        }
     }
 }
