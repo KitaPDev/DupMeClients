@@ -1,9 +1,6 @@
 package com.ise.kitap.dupme
 
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
+import android.content.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
@@ -12,6 +9,7 @@ import com.ise.kitap.dupme.services.SocketService
 import android.graphics.Color.rgb
 import android.view.View
 import android.view.animation.TranslateAnimation
+import com.ise.kitap.dupme.lib.SharedPreference
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -25,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         welcomePage()
 
+        val sharedPreference: SharedPreference = SharedPreference(this)
+
         btnStart.setOnClickListener {
             startActivity()
         }
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             setProgressBar()
             if(verifyUserInput()) {
 
-
+                sharedPreference.save("username", strUsername)
 
                 findMatch()
             }
@@ -61,6 +61,10 @@ class MainActivity : AppCompatActivity() {
 
         if(strResponse.equals("OK")) {
             return true
+
+        } else if(strResponse.equals("BAD")){
+            Toast.makeText(this, "Username must not contain whitespace!",
+                Toast.LENGTH_SHORT).show()
         }
 
         return false
@@ -90,17 +94,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setProgressBar() {
-        loading.visibility = View.VISIBLE
-        loading.bringToFront()
+        prgBar_main.visibility = View.VISIBLE
+        prgBar_main.bringToFront()
         btnCancel.visibility = View.VISIBLE
         edtUsername.visibility = View.INVISIBLE
         btnFindMatch.visibility = View.INVISIBLE
         background.setBackgroundColor(rgb(211,211,211))
-
     }
 
     private fun cancelMatch(){
-        loading.visibility=View.INVISIBLE
+        prgBar_main.visibility=View.INVISIBLE
         btnCancel.visibility=View.INVISIBLE
         edtUsername.visibility=View.VISIBLE
         btnFindMatch.visibility=View.VISIBLE
