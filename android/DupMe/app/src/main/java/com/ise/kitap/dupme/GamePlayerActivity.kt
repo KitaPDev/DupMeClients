@@ -3,6 +3,8 @@ package com.ise.kitap.dupme
 import android.media.SoundPool
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.view.View
 import kotlinx.android.synthetic.main.activity_gameplayer.*
 
 class GamePlayerActivity : AppCompatActivity() {
@@ -50,5 +52,50 @@ class GamePlayerActivity : AppCompatActivity() {
 
 
     }
+
+    private fun setTime(long: Long){
+        val timer = object : CountDownTimer(long, 1000) {
+            override fun onFinish() {
+                Timer.text = "Next player turn"
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+                Timer.text = (millisUntilFinished/1000).toString() + "seconds"
+            }
+
+        }
+        timer.start()
+    }
+    //Piano enabling and disabling right here
+    private fun disableButton(view: View) {
+        view.isEnabled = false
+    }
+
+    private fun disablePiano() {
+        disableButton(btnC)
+        disableButton(btnA)
+        disableButton(btnB)
+        disableButton(btnD)
+        disableButton(btnE)
+        disableButton(btnF)
+        disableButton(btnG)
+    }
+
+    private fun enableButton(view: View){
+        view.isEnabled = true
+    }
+
+    private fun enablePiano(){
+        enableButton(btnA)
+        enableButton(btnB)
+        enableButton(btnC)
+        enableButton(btnD)
+        enableButton(btnE)
+        enableButton(btnF)
+        enableButton(btnG)
+    }
+
+
+
 
 }
