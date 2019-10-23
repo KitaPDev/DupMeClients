@@ -23,15 +23,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         welcomePage()
 
-        val sharedPreference: SharedPreference = SharedPreference(this)
+        val sharedPreference = SharedPreference(this)
 
         btnStart.setOnClickListener {
             startActivity()
         }
 
-        val intent = Intent(this, SocketService::class.java)
-        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
-
+        val intentService = Intent(this, SocketService::class.java)
+        bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
 
         btnFindMatch.setOnClickListener {
             setProgressBar()
@@ -39,7 +38,9 @@ class MainActivity : AppCompatActivity() {
 
                 sharedPreference.save("username", strUsername)
 
-                findMatch()
+                val intentActivity = Intent(this, FindMatchActivity::class.java)
+                unbindService(serviceConnection)
+                startActivity(intentActivity)
             }
         }
 
@@ -68,12 +69,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         return false
-    }
-
-    private fun findMatch() {
-        val intent = Intent(this, FindMatchActivity::class.java)
-        unbindService(serviceConnection)
-        startActivity(intent)
     }
 
     private val serviceConnection = object : ServiceConnection {
