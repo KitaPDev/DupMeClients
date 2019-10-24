@@ -1,20 +1,50 @@
 package com.ise.kitap.dupme
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.media.SoundPool
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.IBinder
 import android.view.View
+import com.ise.kitap.dupme.services.SocketService
 import kotlinx.android.synthetic.main.activity_gameplayer.*
 
 class GamePlayerActivity : AppCompatActivity() {
 
+    var mBoundSocketService: SocketService? = null
+    var isBound = false
+    private var strUsername: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gameplayer)
-        val soundPool: SoundPool = SoundPool.Builder().setMaxStreams(7).build()
 
+        val intentService = Intent(this, SocketService::class.java)
+        bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
+
+        setupKeys()
+    }
+
+    private fun setTime(long: Long){
+        val timer = object : CountDownTimer(long, 1000) {
+            override fun onFinish() {
+                Timer.text = "Next player turn"
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+                Timer.text = (millisUntilFinished/1000).toString() + "seconds"
+            }
+
+        }
+        timer.start()
+    }
+
+    private fun setupKeys() {
+        val soundPool: SoundPool = SoundPool.Builder().setMaxStreams(7).build()
         val soundA = soundPool.load(this, R.raw.a, 1)
         val soundB = soundPool.load(this, R.raw.b, 1)
         val soundC = soundPool.load(this, R.raw.c, 1)
@@ -60,29 +90,14 @@ class GamePlayerActivity : AppCompatActivity() {
             delayBetweenClicks()
 
         }
-
-
     }
 
-    private fun setTime(long: Long){
-        val timer = object : CountDownTimer(long, 1000) {
-            override fun onFinish() {
-                Timer.text = "Next player turn"
-            }
-
-            override fun onTick(millisUntilFinished: Long) {
-                Timer.text = (millisUntilFinished/1000).toString() + "seconds"
-            }
-
-        }
-        timer.start()
-    }
     //Piano enabling and disabling right here
     private fun disableButton(view: View) {
         view.isEnabled = false
     }
 
-    private fun disablePiano() {
+    private fun disableKeys() {
         disableButton(btnC)
         disableButton(btnA)
         disableButton(btnB)
@@ -96,7 +111,7 @@ class GamePlayerActivity : AppCompatActivity() {
         view.isEnabled = true
     }
 
-    private fun enablePiano(){
+    private fun enableKeys(){
         enableButton(btnA)
         enableButton(btnB)
         enableButton(btnC)
@@ -108,14 +123,13 @@ class GamePlayerActivity : AppCompatActivity() {
 
     //Set delay between clicks for better gaming experience
     private fun delayBetweenClicks() {
-        disablePiano()
+        disableKeys()
         val timer = object : CountDownTimer(150, 1000) {
             override fun onFinish() {
-                enablePiano()
+                enableKeys()
             }
 
-            override fun onTick(millisUntilFinished: Long) {
-            }
+            override fun onTick(millisUntilFinished: Long) {}
 
         }
         timer.start()
@@ -123,6 +137,16 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
 
+    private val serviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            val binder = service as SocketService.LocalBinder
+            mBoundSocketService = binder.getService()
+            isBound = true
+        }
 
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isBound = false
+        }
+    }
 
 }

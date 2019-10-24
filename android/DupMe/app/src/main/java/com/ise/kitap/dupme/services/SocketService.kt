@@ -16,7 +16,6 @@ class SocketService : Service() {
     private val serverPort = 54321
 
     var socket = Socket()
-    var strData = ""
     var output: BufferedWriter? = null
     var input: BufferedReader? = null
 
@@ -42,7 +41,7 @@ class SocketService : Service() {
     }
 
     fun requestFromServer(message: String): String {
-        return AsyncSocketComm().execute(message).get()
+        return AsyncSocketComm(true).execute(message).get()
     }
 
     inner class ClientSocket : Runnable {
@@ -80,27 +79,45 @@ class SocketService : Service() {
         socket = Socket()
     }
 
-    inner class AsyncSocketComm : AsyncTask<String, Void, String>() {
+    inner class AsyncSocketComm(recvMode: Boolean) : AsyncTask<String, Void, String>() {
+
+        var recvMode = false
+
+        init {
+            this.recvMode = recvMode
+        }
 
         override fun doInBackground(vararg strData: String): String {
 
             output = BufferedWriter(OutputStreamWriter(socket.getOutputStream()))
             input = BufferedReader(InputStreamReader(socket.getInputStream()))
 
-            if(output != null) {
-                val strMessage = strData[0]
-                println("Send message: $strMessage")
-                output!!.write(strMessage)
-                output!!.newLine()
-                output!!.flush()
+            if(recvMode) {
+                if(output != null) {
+                    val strMessage = strData[0]
+                    println("Send message: $strMessage")
+                    output!!.write(strMessage)
+                    output!!.newLine()
+                    output!!.flush()
+                }
+
+                return if(input != null) {
+                    val response = input!!.readLine()
+                    println("Server Response: $response")
+                    response
+
+                } else ""
+
+            } else {
+                if(output != null) {
+                    val strMessage = strData[0]
+                    println("Send message: $strMessage")
+                    output!!.write(strMessage)
+                    output!!.newLine()
+                    output!!.flush()
+                }
+                return ""
             }
-
-            return if(input != null) {
-                val response = input!!.readLine()
-                println("Response: $response")
-                response
-
-            } else ""
         }
     }
 }

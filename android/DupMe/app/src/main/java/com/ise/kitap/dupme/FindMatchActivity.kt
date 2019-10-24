@@ -7,10 +7,13 @@ import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
+import com.ise.kitap.dupme.lib.SharedPreference
 import com.ise.kitap.dupme.services.SocketService
 import kotlinx.android.synthetic.main.activity_find_match.*
 
 class FindMatchActivity : AppCompatActivity() {
+
+    val REQ_AGAIN = "REQ_AGAIN"
 
     var mBoundSocketService: SocketService? = null
     var isBound = false
@@ -26,11 +29,22 @@ class FindMatchActivity : AppCompatActivity() {
             cancelMatch()
         }
 
-
+        findMatch()
     }
 
     private fun findMatch() {
+        var strResponse = REQ_AGAIN
+        val strMessage = "find_match"
+        while(strResponse == REQ_AGAIN) {
+            strResponse = mBoundSocketService?.requestFromServer(strMessage).toString()
+        }
 
+        val sharedPreference = SharedPreference(this)
+        sharedPreference.save("username_opponent", strResponse)
+
+        val intent = Intent(this, GamePlayerActivity::class.java)
+        unbindService(serviceConnection)
+        startActivity(intent)
     }
 
     private val serviceConnection = object : ServiceConnection {
@@ -51,6 +65,7 @@ class FindMatchActivity : AppCompatActivity() {
     }
 
     private fun cancelMatch() {
+        unbindService(serviceConnection)
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
