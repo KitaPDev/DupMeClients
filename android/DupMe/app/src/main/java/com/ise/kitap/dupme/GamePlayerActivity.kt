@@ -357,7 +357,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
         override fun run() {
             super.run()
-            val strMessage = "get_keys"
+            val strMessage = "get_key"
 
             while(bolStart) {
 
