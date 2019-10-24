@@ -51,7 +51,7 @@ class SocketService : Service() {
             try {
                 println("Client Connecting...")
 
-                if(socket.isConnected) {
+                if(!socket.isConnected) {
                     socket = Socket(serverIP, serverPort)
                 }
                 output = BufferedWriter(OutputStreamWriter(socket.getOutputStream()))
