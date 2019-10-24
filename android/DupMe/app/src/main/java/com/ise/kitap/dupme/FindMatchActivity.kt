@@ -13,8 +13,6 @@ import kotlinx.android.synthetic.main.activity_find_match.*
 
 class FindMatchActivity : AppCompatActivity() {
 
-    private val REQ_AGAIN = "REQ_AGAIN"
-
     var mBoundSocketService: SocketService? = null
     var isBound = false
 
@@ -24,7 +22,7 @@ class FindMatchActivity : AppCompatActivity() {
 
         val intentService = Intent(this, SocketService::class.java)
         startService(intentService)
-        applicationContext.bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
+        bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
 
         btnCancel_findMatch.setOnClickListener {
             cancelMatch()
@@ -32,9 +30,8 @@ class FindMatchActivity : AppCompatActivity() {
     }
 
     private fun findMatch() {
-        var strResponse = REQ_AGAIN
         val strMessage = "find_match"
-        strResponse = mBoundSocketService?.requestFromServer(strMessage).toString()
+        val strResponse = mBoundSocketService?.requestFromServer(strMessage).toString()
 
         val lsStrResponse = strResponse.split(' ')
         val sharedPreference = SharedPreference(this)
@@ -50,10 +47,8 @@ class FindMatchActivity : AppCompatActivity() {
             }
         }
 
-        if(isBound) {
-            applicationContext.unbindService(serviceConnection)
-        }
         startActivity(intent)
+        unbindService(serviceConnection)
     }
 
     private val serviceConnection = object : ServiceConnection {

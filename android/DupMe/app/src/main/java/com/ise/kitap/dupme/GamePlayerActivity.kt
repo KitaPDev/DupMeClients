@@ -35,7 +35,8 @@ class GamePlayerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_gameplayer)
 
         val intentService = Intent(this, SocketService::class.java)
-        bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
+        startService(intentService)
+        applicationContext.bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
 
         val sharedPreference = SharedPreference(this)
         strUsername = sharedPreference.getValueString("username").toString()
@@ -49,7 +50,6 @@ class GamePlayerActivity : AppCompatActivity() {
 
         disableKeys()
         setupKeys()
-        firstTurn()
     }
 
     private fun firstTurn() {
@@ -347,6 +347,8 @@ class GamePlayerActivity : AppCompatActivity() {
             val binder = service as SocketService.LocalBinder
             mBoundSocketService = binder.getService()
             isBound = true
+
+            firstTurn()
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
