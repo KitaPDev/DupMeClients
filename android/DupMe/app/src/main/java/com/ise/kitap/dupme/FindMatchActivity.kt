@@ -72,11 +72,6 @@ class FindMatchActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-//        serviceConnection.onServiceDisconnected()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         unbindService(serviceConnection)
