@@ -13,7 +13,6 @@ import android.view.View
 import com.ise.kitap.dupme.lib.SharedPreference
 import com.ise.kitap.dupme.services.SocketService
 import kotlinx.android.synthetic.main.activity_gameplayer.*
-import java.util.concurrent.atomic.AtomicBoolean
 
 class GamePlayerActivity : AppCompatActivity() {
 
@@ -30,7 +29,11 @@ class GamePlayerActivity : AppCompatActivity() {
     private var turn = 0
 
     private var bolStart = false
+    private var bolNextTurn = true
     private var bolThreadRun = false
+    private var bolNewKey = false
+
+    private var strResponse: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +60,26 @@ class GamePlayerActivity : AppCompatActivity() {
         setupKeys()
     }
 
+    private fun playGame() {
+        while(true) {
+
+            if(bolNextTurn) {
+                when(turn) {
+                    0 -> firstTurn()
+                    1 -> secondTurn()
+                    2 -> thirdTurn()
+                    3 -> fourthTurn()
+                    4 -> finishMatch()
+                }
+            }
+
+            if(bolNewKey) {
+                updateOpponentKeys(strResponse.toString())
+                bolNewKey = false
+            }
+        }
+    }
+
     private fun firstTurn() {
         if(bolStart) {
             setTimer(10000)
@@ -68,6 +91,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
             bolThreadRun = true
         }
+        bolNextTurn = false
         turn += 1
     }
 
@@ -83,6 +107,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
             true
         }
+        bolNextTurn = false
         turn += 1
     }
 
@@ -102,6 +127,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
             true
         }
+        bolNextTurn = false
         turn += 1
     }
 
@@ -117,6 +143,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
             true
         }
+        bolNextTurn = false
         turn += 1
     }
 
@@ -124,16 +151,6 @@ class GamePlayerActivity : AppCompatActivity() {
         val timer = object : CountDownTimer(long, 1000) {
             override fun onFinish() {
                 bolStart = !bolStart
-
-                when (turn) {
-                    1 -> secondTurn()
-                    2 -> thirdTurn()
-                    3 -> fourthTurn()
-                }
-
-                if(turn == 4) {
-                    finishMatch()
-                }
             }
 
             override fun onTick(millisUntilFinished: Long) {
@@ -164,7 +181,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
                 if(lsKeysOpponent.isNotEmpty()) {
                     if(lsKeysOpponent[0] == "C") {
-                        iScore.inc()
+                        iScore += 1
                         lsKeysOpponent.removeAt(0)
                     }
                 }
@@ -180,7 +197,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
                 if(lsKeysOpponent.isNotEmpty()) {
                     if(lsKeysOpponent[0] == "D") {
-                        iScore.inc()
+                        iScore += 1
                         lsKeysOpponent.removeAt(0)
                     }
                 }
@@ -196,7 +213,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
                 if(lsKeysOpponent.isNotEmpty()) {
                     if(lsKeysOpponent[0] == "E") {
-                        iScore.inc()
+                        iScore += 1
                         lsKeysOpponent.removeAt(0)
                     }
                 }
@@ -211,7 +228,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
                 if(lsKeysOpponent.isNotEmpty()) {
                     if(lsKeysOpponent[0] == "F") {
-                        iScore.inc()
+                        iScore += 1
                         lsKeysOpponent.removeAt(0)
                     }
                 }
@@ -226,7 +243,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
                 if(lsKeysOpponent.isNotEmpty()) {
                     if(lsKeysOpponent[0] == "G") {
-                        iScore.inc()
+                        iScore += 1
                         lsKeysOpponent.removeAt(0)
                     }
                 }
@@ -241,7 +258,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
                 if(lsKeysOpponent.isNotEmpty()) {
                     if(lsKeysOpponent[0] == "A") {
-                        iScore.inc()
+                        iScore += 1
                         lsKeysOpponent.removeAt(0)
                     }
                 }
@@ -256,7 +273,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
                 if(lsKeysOpponent.isNotEmpty()) {
                     if(lsKeysOpponent[0] == "B") {
-                        iScore.inc()
+                        iScore += 1
                         lsKeysOpponent.removeAt(0)
                     }
                 }
@@ -309,10 +326,18 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun updateOpponentKeys(response: String) {
-        this.clickButton(response)
+        when(response) {
+            "C" -> btnC.performClick()
+            "D" -> btnD.performClick()
+            "E" -> btnE.performClick()
+            "F" -> btnF.performClick()
+            "G" -> btnG.performClick()
+            "A" -> btnA.performClick()
+            "B" -> btnB.performClick()
+        }
 
         if(response == lsKeys[0]) {
-            iScoreOpponent.inc()
+            iScoreOpponent += 1
             lsKeys.removeAt(0)
         }
     }
@@ -324,20 +349,8 @@ class GamePlayerActivity : AppCompatActivity() {
 
         startActivity(intent)
 
-        if(isBound){
+        if(isBound) {
             unbindService(serviceConnection)
-        }
-    }
-
-    private fun clickButton(id: String) {
-        when (id) {
-            "C" -> btnC.performClick()
-            "D" -> btnD.performClick()
-            "E" -> btnE.performClick()
-            "F" -> btnF.performClick()
-            "G" -> btnG.performClick()
-            "A" -> btnA.performClick()
-            "B" -> btnB.performClick()
         }
     }
 
@@ -350,8 +363,8 @@ class GamePlayerActivity : AppCompatActivity() {
             val strResponse = mBoundSocketService!!.requestFromServer("get_start_bit")
 
             bolStart = strResponse == "1"
-
-            firstTurn()
+            bolNextTurn = true
+            playGame()
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -364,9 +377,10 @@ class GamePlayerActivity : AppCompatActivity() {
         override fun run() {
             if(bolThreadRun) {
                 val strMessage = "get_key"
-                val strResponse = mBoundSocketService?.requestFromServer(strMessage)
+                strResponse = mBoundSocketService?.requestFromServer(strMessage)
                 if (strResponse != null) {
-                    updateOpponentKeys(strResponse)
+                    println(strResponse)
+                    bolNewKey = true
                 }
             }
         }
