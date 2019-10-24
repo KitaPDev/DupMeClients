@@ -48,7 +48,7 @@ class FindMatchActivity : AppCompatActivity() {
             intent.putExtra("start_flag", true)
 
         } else {
-            intent.putExtra("start_floag", false)
+            intent.putExtra("start_flag", false)
         }
 
         unbindService(serviceConnection)

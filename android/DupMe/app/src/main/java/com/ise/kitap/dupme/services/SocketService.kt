@@ -44,6 +44,10 @@ class SocketService : Service() {
         return AsyncSocketComm(true).execute(message).get()
     }
 
+    fun sendToServer(message: String) {
+        AsyncSocketComm(false).execute(message)
+    }
+
     inner class ClientSocket : Runnable {
 
         override fun run() {
@@ -51,6 +55,8 @@ class SocketService : Service() {
                 println("Client Connecting...")
 
                 socket = Socket(serverIP, serverPort)
+                output = BufferedWriter(OutputStreamWriter(socket.getOutputStream()))
+                input = BufferedReader(InputStreamReader(socket.getInputStream()))
 
                 println("Connected!")
 
@@ -88,9 +94,6 @@ class SocketService : Service() {
         }
 
         override fun doInBackground(vararg strData: String): String {
-
-            output = BufferedWriter(OutputStreamWriter(socket.getOutputStream()))
-            input = BufferedReader(InputStreamReader(socket.getInputStream()))
 
             if(recvMode) {
                 if(output != null) {
