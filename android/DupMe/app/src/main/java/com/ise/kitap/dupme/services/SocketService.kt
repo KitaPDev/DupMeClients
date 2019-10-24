@@ -12,7 +12,7 @@ import java.net.Socket
 class SocketService : Service() {
 
     private val myBinder = LocalBinder()
-    private val serverIP = "192.168.1.108"
+    private val serverIP = "10.202.227.203"
     private val serverPort = 54321
 
     var socket = Socket()
@@ -85,17 +85,18 @@ class SocketService : Service() {
         override fun doInBackground(vararg strData: String): String {
 
             output = BufferedWriter(OutputStreamWriter(socket.getOutputStream()))
+            input = BufferedReader(InputStreamReader(socket.getInputStream()))
+
             if(output != null) {
-                var strMessage = strData[0]
+                val strMessage = strData[0]
                 println("Send message: $strMessage")
-                output!!.write(strMessage.toString())
+                output!!.write(strMessage)
                 output!!.newLine()
                 output!!.flush()
             }
 
-            input = BufferedReader(InputStreamReader(socket.getInputStream()))
             return if(input != null) {
-                var response = input!!.readText()
+                val response = input!!.readLine()
                 println("Response: $response")
                 response
 
