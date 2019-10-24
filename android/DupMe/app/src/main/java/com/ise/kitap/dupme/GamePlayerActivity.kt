@@ -62,6 +62,7 @@ class GamePlayerActivity : AppCompatActivity() {
         } else {
             setTimer(10000)
             disableKeys()
+            getOpponentKeysThread.bolRun = true
             getOpponentKeysThread.start()
         }
         turn += 1
@@ -73,11 +74,14 @@ class GamePlayerActivity : AppCompatActivity() {
             enableKeys()
 
             getOpponentKeysThread.bolStop = true
+            getOpponentKeysThread.bolRun = false
 
         } else {
             setTimer(20000)
             disableKeys()
 
+            getOpponentKeysThread.bolStop = false
+            getOpponentKeysThread.bolRun = true
             getOpponentKeysThread.start()
         }
         turn += 1
@@ -93,12 +97,14 @@ class GamePlayerActivity : AppCompatActivity() {
             enableKeys()
 
             getOpponentKeysThread.bolStop = true
+            getOpponentKeysThread.bolRun = false
 
         } else {
             setTimer(10000)
             disableKeys()
 
             getOpponentKeysThread.bolStop = false
+            getOpponentKeysThread.bolRun = true
             getOpponentKeysThread.start()
         }
         turn += 1
@@ -110,12 +116,14 @@ class GamePlayerActivity : AppCompatActivity() {
             enableKeys()
 
             getOpponentKeysThread.bolStop = true
+            getOpponentKeysThread.bolRun = false
 
         } else {
             setTimer(20000)
             disableKeys()
 
             getOpponentKeysThread.bolStop = false
+            getOpponentKeysThread.bolRun = true
             getOpponentKeysThread.start()
         }
         turn += 1
@@ -356,6 +364,7 @@ class GamePlayerActivity : AppCompatActivity() {
     inner class GetOpponentKeysThread : Thread() {
 
         var bolStop = false
+        var bolRun = false
 
         override fun run() {
             super.run()
@@ -367,9 +376,11 @@ class GamePlayerActivity : AppCompatActivity() {
                     break
                 }
 
-                val strResponse = mBoundSocketService?.requestFromServer(strMessage)
-                if (strResponse != null) {
-                    updateOpponentKeys(strResponse)
+                if(bolRun) {
+                    val strResponse = mBoundSocketService?.requestFromServer(strMessage)
+                    if (strResponse != null) {
+                        updateOpponentKeys(strResponse)
+                    }
                 }
             }
         }
