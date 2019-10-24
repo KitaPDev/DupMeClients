@@ -31,7 +31,6 @@ class GamePlayerActivity : AppCompatActivity() {
     private var bolPlay = false
     private var bolNextTurn = true
     private var bolThreadRun = false
-    private var bolNewKey = false
 
     private var strResponse: String? = ""
 
@@ -70,11 +69,6 @@ class GamePlayerActivity : AppCompatActivity() {
                 3 -> fourthTurn()
                 4 -> finishMatch()
             }
-        }
-
-        if(bolNewKey) {
-            updateOpponentKeys(strResponse.toString())
-            bolNewKey = false
         }
     }
 
@@ -376,12 +370,17 @@ class GamePlayerActivity : AppCompatActivity() {
     inner class GetOpponentKeysThread(context: GamePlayerActivity) : Runnable {
 
         override fun run() {
-            if(bolThreadRun) {
-                val strMessage = "get_key"
-                strResponse = mBoundSocketService?.requestFromServer(strMessage)
-                if (strResponse != null) {
-                    println(strResponse)
-                    bolNewKey = true
+
+            while(true) {
+
+                if(bolThreadRun) {
+                    val strMessage = "get_key"
+                    strResponse = mBoundSocketService?.requestFromServer(strMessage)
+
+                    if (strResponse != null) {
+                        println(strResponse)
+                        updateOpponentKeys(strResponse!!)
+                    }
                 }
             }
         }
