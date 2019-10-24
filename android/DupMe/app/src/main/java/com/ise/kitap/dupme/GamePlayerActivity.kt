@@ -117,6 +117,7 @@ class GamePlayerActivity : AppCompatActivity() {
             getOpponentKeysThread.start()
         }
 
+        turn.inc()
     }
 
     private fun setTimer(long: Long){
@@ -128,6 +129,10 @@ class GamePlayerActivity : AppCompatActivity() {
                     1 -> secondTurn()
                     2 -> thirdTurn()
                     3 -> fourthTurn()
+                }
+
+                if(turn == 4) {
+                    finishMatch()
                 }
             }
 
@@ -304,12 +309,14 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun updateOpponentKeys(response: String) {
-        val lsIDs = response.split(' ')
-        lsKeysOpponent.addAll(lsIDs)
-        val iterator = lsIDs.iterator()
+        val lsKeyIDs = response.split(' ')
+        lsKeysOpponent.addAll(lsKeyIDs)
+        val iterator = lsKeyIDs.iterator()
 
         while(iterator.hasNext()) {
-            when (iterator.next()) {
+            val keyID = iterator.next()
+
+            when (keyID) {
                 "C" -> btnC.performClick()
                 "D" -> btnD.performClick()
                 "E" -> btnE.performClick()
@@ -318,7 +325,21 @@ class GamePlayerActivity : AppCompatActivity() {
                 "A" -> btnA.performClick()
                 "B" -> btnB.performClick()
             }
+
+            if(keyID == lsKeys[0]) {
+                iScoreOpponent.inc()
+                lsKeys.removeAt(0)
+            }
         }
+    }
+
+    private fun finishMatch() {
+        val intent = Intent(this, ScoreboardActivity::class.java)
+        intent.putExtra("score", iScore)
+        intent.putExtra("score_opponent", iScoreOpponent)
+
+        unbindService(serviceConnection)
+        startActivity(intent)
     }
 
     private val serviceConnection = object : ServiceConnection {

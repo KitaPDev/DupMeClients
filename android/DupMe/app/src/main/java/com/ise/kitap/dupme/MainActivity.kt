@@ -40,7 +40,10 @@ open class MainActivity : AppCompatActivity() {
 
         btnStart_main.setOnClickListener {
             startMainActivity()
+<<<<<<< HEAD
 //            startActivity(Intent(this, GamePlayerActivity::class.java))
+=======
+>>>>>>> c9a5d1932c4fdf1601beb356c576e00594c571bb
         }
 
         btnFindMatch_main.setOnClickListener {
@@ -52,9 +55,11 @@ open class MainActivity : AppCompatActivity() {
                 val intentActivity = Intent(this, FindMatchActivity::class.java)
                 unbindService(serviceConnection)
                 startActivity(intentActivity)
+
+            } else {
+
             }
         }
-
     }
 
     private fun verifyUserInput(): Boolean {
@@ -62,6 +67,12 @@ open class MainActivity : AppCompatActivity() {
 
         if(strUsername.contains(" ")) {
             Toast.makeText(this, "Username must not contain whitespace!",
+                Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if(strUsername.isEmpty()) {
+            Toast.makeText(this, "Must input username!",
                 Toast.LENGTH_SHORT).show()
             return false
         }
