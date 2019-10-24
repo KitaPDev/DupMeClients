@@ -30,6 +30,7 @@ class GamePlayerActivity : AppCompatActivity() {
     private var turn = 0
 
     private var bolStart = false
+    private var bolThreadRun = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +51,7 @@ class GamePlayerActivity : AppCompatActivity() {
         txtUsernameOpponent.text = strUsernameOpponent
         txtScore.text = iScore.toString()
         txtScoreOpponent.text = iScoreOpponent.toString()
+        runOnUiThread(getOpponentKeysThread)
 
         disableKeys()
         setupKeys()
@@ -63,25 +65,23 @@ class GamePlayerActivity : AppCompatActivity() {
         } else {
             setTimer(10000)
             disableKeys()
-            getOpponentKeysThread.atomicBoolean.set(true)
-            getOpponentKeysThread.start()
+
+            bolThreadRun = true
         }
         turn += 1
     }
 
     private fun secondTurn() {
-        if(bolStart) {
+        bolThreadRun = if(bolStart) {
             setTimer(20000)
             enableKeys()
 
-            getOpponentKeysThread.atomicBoolean.set(false)
-
+            false
         } else {
             setTimer(20000)
             disableKeys()
 
-            getOpponentKeysThread.atomicBoolean.set(true)
-            getOpponentKeysThread.start()
+            true
         }
         turn += 1
     }
@@ -91,35 +91,31 @@ class GamePlayerActivity : AppCompatActivity() {
         lsKeysOpponent.clear()
         bolStart = !bolStart
 
-        if(bolStart) {
+        bolThreadRun = if(bolStart) {
             setTimer(10000)
             enableKeys()
 
-            getOpponentKeysThread.atomicBoolean.set(false)
-
+            false
         } else {
             setTimer(10000)
             disableKeys()
 
-            getOpponentKeysThread.atomicBoolean.set(true)
-//            getOpponentKeysThread.start()
+            true
         }
         turn += 1
     }
 
     private fun fourthTurn() {
-        if(bolStart) {
+        bolThreadRun = if(bolStart) {
             setTimer(20000)
             enableKeys()
 
-            getOpponentKeysThread.atomicBoolean.set(false)
-
+            false
         } else {
             setTimer(20000)
             disableKeys()
 
-            getOpponentKeysThread.atomicBoolean.set(true)
-            getOpponentKeysThread.start()
+            true
         }
         turn += 1
     }
@@ -327,7 +323,10 @@ class GamePlayerActivity : AppCompatActivity() {
         intent.putExtra("score_opponent", iScoreOpponent)
 
         startActivity(intent)
-        unbindService(serviceConnection)
+
+        if(isBound){
+            unbindService(serviceConnection)
+        }
     }
 
     private fun clickButton(id: String) {
@@ -360,16 +359,15 @@ class GamePlayerActivity : AppCompatActivity() {
         }
     }
 
-    inner class GetOpponentKeysThread : Thread() {
-
-        var atomicBoolean: AtomicBoolean = AtomicBoolean(false)
+    inner class GetOpponentKeysThread : Runnable {
 
         override fun run() {
-            super.run()
-            val strMessage = "get_key"
-            val strResponse = mBoundSocketService?.requestFromServer(strMessage)
-            if (strResponse != null) {
-                updateOpponentKeys(strResponse)
+            if(bolThreadRun) {
+                val strMessage = "get_key"
+                val strResponse = mBoundSocketService?.requestFromServer(strMessage)
+                if (strResponse != null) {
+                    updateOpponentKeys(strResponse)
+                }
             }
         }
     }
