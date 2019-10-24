@@ -47,8 +47,8 @@ class ScoreboardActivity : AppCompatActivity() {
             txtUsernameWinner.text = strUsernameOpponent
         }
 
-        txtScore.text = iScore.toString()
-        txtScoreOpponent.text = iScoreOpponent.toString()
+        txtScoreFinal1.text = iScore.toString()
+        txtScoreFinal2.text = iScoreOpponent.toString()
 
         btnPlayAgain.setOnClickListener {
             mBoundSocketService?.stopSelf()
