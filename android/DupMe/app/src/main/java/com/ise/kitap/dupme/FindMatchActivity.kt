@@ -45,10 +45,10 @@ class FindMatchActivity : AppCompatActivity() {
 
         val intent = Intent(this, GamePlayerActivity::class.java)
         if(lsStrResponse[1] == "start") {
-            intent.putExtra("start_flag", true)
+            sharedPreference.save("start_flag", true)
 
         } else {
-            intent.putExtra("start_flag", false)
+            sharedPreference.save("start_flag", false)
         }
 
         unbindService(serviceConnection)

@@ -78,11 +78,11 @@ class SocketService : Service() {
         super.onDestroy()
         try {
             socket.close()
+            println("Service destroyed...Socket closed.")
 
         } catch(e: Exception) {
             e.printStackTrace()
         }
-        socket = Socket()
     }
 
     inner class AsyncSocketComm(recvMode: Boolean) : AsyncTask<String, Void, String>() {
