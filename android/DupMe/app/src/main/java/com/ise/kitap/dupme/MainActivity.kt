@@ -34,12 +34,14 @@ open class MainActivity : AppCompatActivity() {
 
         val sharedPreference = SharedPreference(this)
 
+        val intentService = Intent(this, SocketService::class.java)
+//        intentService.putExtra("clientMessage", "set_username $strUsername")
+        startService(intentService)
+        bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
+
         btnStart_main.setOnClickListener {
             startMainActivity()
         }
-
-        val intentService = Intent(this, SocketService::class.java)
-        bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
 
         btnFindMatch_main.setOnClickListener {
             setProgressBar()
@@ -64,13 +66,14 @@ open class MainActivity : AppCompatActivity() {
             return false
         }
 
-        var strResponse = mBoundSocketService?.requestFromServer(strUsername)
+        var strMessage = "set_username $strUsername"
+        val strResponse = mBoundSocketService?.requestFromServer(strMessage)
 
         if(strResponse.equals("OK")) {
             return true
 
         } else if(strResponse.equals("BAD")){
-            Toast.makeText(this, "Username must not contain whitespace!",
+            Toast.makeText(this, "Username unavailable!",
                 Toast.LENGTH_SHORT).show()
         }
 
