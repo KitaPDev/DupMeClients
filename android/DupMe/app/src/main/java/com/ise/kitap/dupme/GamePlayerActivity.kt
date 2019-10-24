@@ -313,15 +313,7 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun updateOpponentKeys(response: String) {
-        when (response) {
-            "C" -> btnC.performClick()
-            "D" -> btnD.performClick()
-            "E" -> btnE.performClick()
-            "F" -> btnF.performClick()
-            "G" -> btnG.performClick()
-            "A" -> btnA.performClick()
-            "B" -> btnB.performClick()
-        }
+        this.clickButton(response)
 
         if(response == lsKeys[0]) {
             iScoreOpponent.inc()
@@ -336,6 +328,18 @@ class GamePlayerActivity : AppCompatActivity() {
 
         startActivity(intent)
         unbindService(serviceConnection)
+    }
+
+    private fun clickButton(id: String) {
+        when (id) {
+            "C" -> btnC.performClick()
+            "D" -> btnD.performClick()
+            "E" -> btnE.performClick()
+            "F" -> btnF.performClick()
+            "G" -> btnG.performClick()
+            "A" -> btnA.performClick()
+            "B" -> btnB.performClick()
+        }
     }
 
     private val serviceConnection = object : ServiceConnection {
