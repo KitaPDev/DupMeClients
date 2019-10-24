@@ -12,7 +12,7 @@ import java.net.Socket
 class SocketService : Service() {
 
     private val myBinder = LocalBinder()
-    private val serverIP = "10.202.227.203"
+    private val serverIP = "192.168.43.61"
     private val serverPort = 54321
 
     var socket = Socket()

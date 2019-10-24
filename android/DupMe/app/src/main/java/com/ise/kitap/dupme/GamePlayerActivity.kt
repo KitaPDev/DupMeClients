@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.IBinder
 import android.view.View
+import com.ise.kitap.dupme.lib.SharedPreference
 import com.ise.kitap.dupme.services.SocketService
 import kotlinx.android.synthetic.main.activity_gameplayer.*
 
@@ -18,6 +19,9 @@ class GamePlayerActivity : AppCompatActivity() {
     var mBoundSocketService: SocketService? = null
     var isBound = false
     private var strUsername: String = ""
+    private var strUsernameOpponent: String = ""
+    private var iScore = 0
+    private var iScoreOpponent = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,14 +30,29 @@ class GamePlayerActivity : AppCompatActivity() {
         val intentService = Intent(this, SocketService::class.java)
         bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
 
+        val sharedPreference = SharedPreference(this)
+        strUsername = sharedPreference.getValueString("username").toString()
+        strUsernameOpponent = sharedPreference.getValueString("username_opponent").toString()
+
+        txtUsername.text = strUsername
+        txtUsernameOpponent.text = strUsernameOpponent
+        txtScore.text = iScore.toString()
+        txtScoreOpponent.text = iScoreOpponent.toString()
+
         setupKeys()
+        playGame()
     }
 
-    private fun setTime(long: Long){
+    private fun playGame() {
+        while(true) {
+
+
+        }
+    }
+
+    private fun setupTimer(long: Long){
         val timer = object : CountDownTimer(long, 1000) {
-            override fun onFinish() {
-                Timer.text = "Next player turn"
-            }
+            override fun onFinish() {}
 
             override fun onTick(millisUntilFinished: Long) {
                 Timer.text = (millisUntilFinished/1000).toString() + "seconds"
@@ -133,9 +152,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
         }
         timer.start()
-
     }
-
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {

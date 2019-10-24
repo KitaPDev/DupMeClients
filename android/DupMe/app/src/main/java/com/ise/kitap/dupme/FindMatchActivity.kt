@@ -39,10 +39,18 @@ class FindMatchActivity : AppCompatActivity() {
             strResponse = mBoundSocketService?.requestFromServer(strMessage).toString()
         }
 
+        val lsStrResponse = strResponse.split(' ')
         val sharedPreference = SharedPreference(this)
-        sharedPreference.save("username_opponent", strResponse)
+        sharedPreference.save("username_opponent", lsStrResponse[0])
 
         val intent = Intent(this, GamePlayerActivity::class.java)
+        if(lsStrResponse[1] == "start") {
+            intent.putExtra("start_flag", true)
+
+        } else {
+            intent.putExtra("start_floag", false)
+        }
+
         unbindService(serviceConnection)
         startActivity(intent)
     }
