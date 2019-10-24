@@ -341,7 +341,9 @@ class GamePlayerActivity : AppCompatActivity() {
             mBoundSocketService = binder.getService()
             isBound = true
 
-            bolStart = mBoundSocketService!!.requestFromServer("get_start_bit").toBoolean()
+            val strResponse = mBoundSocketService!!.requestFromServer("get_start_bit")
+
+            bolStart = strResponse == "1"
 
             firstTurn()
         }
