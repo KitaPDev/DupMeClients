@@ -67,7 +67,6 @@
         android:id="@+id/btnStart_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         android:background="@drawable/welcome_page_background"
         app:layout_constraintBottom_toBottomOf="@+id/background"
         app:layout_constraintEnd_toEndOf="parent"
