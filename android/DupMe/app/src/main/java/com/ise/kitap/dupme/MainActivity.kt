@@ -35,7 +35,6 @@ open class MainActivity : AppCompatActivity() {
         val sharedPreference = SharedPreference(this)
 
         val intentService = Intent(this, SocketService::class.java)
-//        intentService.putExtra("clientMessage", "set_username $strUsername")
         startService(intentService)
         bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
 
@@ -44,7 +43,7 @@ open class MainActivity : AppCompatActivity() {
         }
 
         btnFindMatch_main.setOnClickListener {
-            setProgressBar()
+            setProgressBar(true)
             if(verifyUserInput()) {
 
                 sharedPreference.save("username", strUsername)
@@ -53,8 +52,9 @@ open class MainActivity : AppCompatActivity() {
                 unbindService(serviceConnection)
                 startActivity(intentActivity)
 
+                setProgressBar(false)
             } else {
-
+                setProgressBar(false)
             }
         }
     }
@@ -105,19 +105,20 @@ open class MainActivity : AppCompatActivity() {
         unbindService(serviceConnection)
     }
 
-    private fun setProgressBar() {
-        prgBar_main.visibility = View.VISIBLE
-        prgBar_main.bringToFront()
-        edtUsername_main.visibility = View.INVISIBLE
-        btnFindMatch_main.visibility = View.INVISIBLE
-        background.setBackgroundColor(rgb(211,211,211))
-    }
+    private fun setProgressBar(bol: Boolean) {
+        if(bol) {
+            prgBar_main.visibility = View.VISIBLE
+            prgBar_main.bringToFront()
+            edtUsername_main.visibility = View.INVISIBLE
+            btnFindMatch_main.visibility = View.INVISIBLE
+            background.setBackgroundColor(rgb(211,211,211))
 
-    private fun cancelProgressBar(){
-        prgBar_main.visibility = View.INVISIBLE
-        edtUsername_main.visibility = View.VISIBLE
-        btnFindMatch_main.visibility = View.VISIBLE
-        background.setBackgroundColor(rgb(255,255,255))
+        } else {
+            prgBar_main.visibility = View.INVISIBLE
+            edtUsername_main.visibility = View.VISIBLE
+            btnFindMatch_main.visibility = View.VISIBLE
+            background.setBackgroundColor(rgb(255,255,255))
+        }
     }
 
     fun welcomePage(){

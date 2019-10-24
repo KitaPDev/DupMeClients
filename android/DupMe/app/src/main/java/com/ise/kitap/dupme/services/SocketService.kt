@@ -11,7 +11,7 @@ import java.net.Socket
 
 class SocketService : Service() {
 
-    private val myBinder = LocalBinder()
+    private val binder = LocalBinder()
     private val serverIP = "192.168.43.61"
     private val serverPort = 54321
 
@@ -20,21 +20,15 @@ class SocketService : Service() {
     var input: BufferedReader? = null
 
     inner class LocalBinder : Binder() {
-        fun getService(): SocketService {
-            return this@SocketService
-        }
+        fun getService(): SocketService = this@SocketService
     }
 
     override fun onBind(p0: Intent?): IBinder? {
-        return myBinder
+        return binder
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-
-//        if (intent != null) {
-//           strData = intent.getStringExtra("clientMessage")
-//        }
 
         Thread(ClientSocket()).start()
         return START_STICKY
