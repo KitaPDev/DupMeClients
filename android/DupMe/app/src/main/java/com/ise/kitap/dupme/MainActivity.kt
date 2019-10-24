@@ -25,7 +25,8 @@ open class MainActivity : AppCompatActivity() {
         //For welcomePage to show only once
         if (WelcomePage.isAppStart){
             btnStart_main.visibility = View.INVISIBLE
-        }else {
+
+        } else {
             welcomePage()
             WelcomePage.isAppStart = true
         }
@@ -33,7 +34,7 @@ open class MainActivity : AppCompatActivity() {
         val sharedPreference = SharedPreference(this)
 
         val intentService = Intent(this, SocketService::class.java)
-//        intentService.putExtra("clientMessage", "set_username $strUsername")
+
         startService(intentService)
         bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
 
@@ -46,9 +47,9 @@ open class MainActivity : AppCompatActivity() {
             if(verifyUserInput()) {
 
                 sharedPreference.save("username", strUsername)
+                unbindService(serviceConnection)
 
                 val intentActivity = Intent(this, FindMatchActivity::class.java)
-                unbindService(serviceConnection)
                 startActivity(intentActivity)
             }
         }
@@ -64,7 +65,7 @@ open class MainActivity : AppCompatActivity() {
             return false
         }
 
-        var strMessage = "set_username $strUsername"
+        val strMessage = "set_username $strUsername"
         val strResponse = mBoundSocketService?.requestFromServer(strMessage)
 
         if(strResponse.equals("OK")) {
