@@ -44,8 +44,7 @@ class GamePlayerActivity : AppCompatActivity() {
         val sharedPreference = SharedPreference(this)
         strUsername = sharedPreference.getValueString("username").toString()
         strUsernameOpponent = sharedPreference.getValueString("username_opponent").toString()
-        bolStart = sharedPreference.getValueBoolean("start_flag")
-
+        
         txtUsername.text = strUsername
         txtUsernameOpponent.text = strUsernameOpponent
         txtScore.text = iScore.toString()
@@ -57,11 +56,11 @@ class GamePlayerActivity : AppCompatActivity() {
 
     private fun firstTurn() {
         if(bolStart) {
-            setTimer(20000)
+            setTimer(10000)
             enableKeys()
 
         } else {
-            setTimer(20000)
+            setTimer(10000)
             disableKeys()
             getOpponentKeysThread.start()
         }
@@ -70,13 +69,13 @@ class GamePlayerActivity : AppCompatActivity() {
 
     private fun secondTurn() {
         if(bolStart) {
-            setTimer(10000)
+            setTimer(20000)
             enableKeys()
 
             getOpponentKeysThread.bolStop = true
 
         } else {
-            setTimer(10000)
+            setTimer(20000)
             disableKeys()
 
             getOpponentKeysThread.start()
@@ -90,13 +89,13 @@ class GamePlayerActivity : AppCompatActivity() {
         bolStart = !bolStart
 
         if(bolStart) {
-            setTimer(20000)
+            setTimer(10000)
             enableKeys()
 
             getOpponentKeysThread.bolStop = true
 
         } else {
-            setTimer(20000)
+            setTimer(10000)
             disableKeys()
 
             getOpponentKeysThread.bolStop = false
@@ -107,13 +106,13 @@ class GamePlayerActivity : AppCompatActivity() {
 
     private fun fourthTurn() {
         if(bolStart) {
-            setTimer(10000)
+            setTimer(20000)
             enableKeys()
 
             getOpponentKeysThread.bolStop = true
 
         } else {
-            setTimer(10000)
+            setTimer(20000)
             disableKeys()
 
             getOpponentKeysThread.bolStop = false
@@ -341,6 +340,8 @@ class GamePlayerActivity : AppCompatActivity() {
             val binder = service as SocketService.LocalBinder
             mBoundSocketService = binder.getService()
             isBound = true
+
+            bolStart = mBoundSocketService!!.requestFromServer("get_start_bit").toBoolean()
 
             firstTurn()
         }
