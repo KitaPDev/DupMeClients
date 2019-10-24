@@ -61,22 +61,19 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun playGame() {
-        while(true) {
-
-            if(bolNextTurn) {
-                when(turn) {
-                    0 -> firstTurn()
-                    1 -> secondTurn()
-                    2 -> thirdTurn()
-                    3 -> fourthTurn()
-                    4 -> finishMatch()
-                }
+        if(bolNextTurn) {
+            when(turn) {
+                0 -> firstTurn()
+                1 -> secondTurn()
+                2 -> thirdTurn()
+                3 -> fourthTurn()
+                4 -> finishMatch()
             }
+        }
 
-            if(bolNewKey) {
-                updateOpponentKeys(strResponse.toString())
-                bolNewKey = false
-            }
+        if(bolNewKey) {
+            updateOpponentKeys(strResponse.toString())
+            bolNewKey = false
         }
     }
 
@@ -93,6 +90,7 @@ class GamePlayerActivity : AppCompatActivity() {
         }
         bolNextTurn = false
         turn += 1
+        playGame()
     }
 
     private fun secondTurn() {
@@ -109,6 +107,7 @@ class GamePlayerActivity : AppCompatActivity() {
         }
         bolNextTurn = false
         turn += 1
+        playGame()
     }
 
     private fun thirdTurn() {
@@ -129,6 +128,7 @@ class GamePlayerActivity : AppCompatActivity() {
         }
         bolNextTurn = false
         turn += 1
+        playGame()
     }
 
     private fun fourthTurn() {
@@ -145,6 +145,7 @@ class GamePlayerActivity : AppCompatActivity() {
         }
         bolNextTurn = false
         turn += 1
+        playGame()
     }
 
     private fun setTimer(long: Long){
