@@ -90,7 +90,6 @@ class GamePlayerActivity : AppCompatActivity() {
         }
         bolNextTurn = false
         turn += 1
-        playGame()
     }
 
     private fun secondTurn() {
@@ -107,7 +106,6 @@ class GamePlayerActivity : AppCompatActivity() {
         }
         bolNextTurn = false
         turn += 1
-        playGame()
     }
 
     private fun thirdTurn() {
@@ -128,7 +126,6 @@ class GamePlayerActivity : AppCompatActivity() {
         }
         bolNextTurn = false
         turn += 1
-        playGame()
     }
 
     private fun fourthTurn() {
@@ -145,13 +142,14 @@ class GamePlayerActivity : AppCompatActivity() {
         }
         bolNextTurn = false
         turn += 1
-        playGame()
     }
 
     private fun setTimer(long: Long){
         val timer = object : CountDownTimer(long, 1000) {
             override fun onFinish() {
                 bolStart = !bolStart
+                bolNextTurn = true
+                playGame()
             }
 
             override fun onTick(millisUntilFinished: Long) {
