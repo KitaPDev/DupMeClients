@@ -347,10 +347,6 @@ class GamePlayerActivity : AppCompatActivity() {
         intent.putExtra("score_opponent", iScoreOpponent)
 
         startActivity(intent)
-
-        if(isBound) {
-            unbindService(serviceConnection)
-        }
     }
 
     private val serviceConnection = object : ServiceConnection {
