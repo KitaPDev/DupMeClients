@@ -65,19 +65,28 @@
 
     <Button
         android:id="@+id/btnStart_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@drawable/welcome_page_background"
         app:layout_constraintBottom_toBottomOf="@+id/background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:background="@drawable/welcome_page_background"
-        android:scaleType="centerCrop"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/WelcomePageBackground"/>
+    <TextView
+        android:id="@+id/Press_to_continue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Press to continue"
+        android:textColor="@color/button_focused"
+        android:translationZ="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.959" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

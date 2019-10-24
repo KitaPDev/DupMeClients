@@ -26,7 +26,6 @@ open class MainActivity : AppCompatActivity() {
         //For welcomePage to show only once
         if (WelcomePage.isAppStart){
             btnStart_main.visibility = View.INVISIBLE
-            WelcomePageBackground.visibility = View.INVISIBLE
         }else {
             welcomePage()
             WelcomePage.isAppStart = true
@@ -115,7 +114,7 @@ open class MainActivity : AppCompatActivity() {
         edtUsername_main.visibility = View.VISIBLE
         btnFindMatch_main.visibility = View.VISIBLE
         btnStart_main.visibility = View.INVISIBLE
-        WelcomePageBackground.visibility = View.INVISIBLE
+        Press_to_continue.visibility = View.INVISIBLE
         startAnimationShow(edtUsername_main)
         startAnimationShow(btnFindMatch_main)
     }

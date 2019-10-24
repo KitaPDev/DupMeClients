@@ -16,6 +16,9 @@
         android:layout_weight="1"
         android:background="@drawable/piano_button_background"
         android:text="a"
+        android:textSize="30dp"
+        android:gravity="bottom|center"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnB" />
 
@@ -27,6 +30,9 @@
         android:layout_weight="1"
         android:background="@drawable/piano_button_background"
         android:text="g"
+        android:textSize="30dp"
+        android:gravity="bottom|center"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnA" />
 
@@ -39,6 +45,9 @@
         android:layout_weight="1"
         android:background="@drawable/piano_button_background"
         android:text="e"
+        android:textSize="30dp"
+        android:gravity="bottom|center"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnF" />
 
@@ -51,6 +60,9 @@
         android:layout_weight="1"
         android:background="@drawable/piano_button_background"
         android:text="c"
+        android:textSize="30dp"
+        android:gravity="bottom|center"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnD"
         app:layout_constraintHorizontal_bias="0.0"
@@ -65,6 +77,9 @@
         android:layout_weight="1"
         android:background="@drawable/piano_button_background"
         android:text="d"
+        android:textSize="30dp"
+        android:gravity="bottom|center"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnE" />
 
@@ -77,6 +92,9 @@
         android:layout_weight="1"
         android:background="@drawable/piano_button_background"
         android:text="f"
+        android:textSize="30dp"
+        android:gravity="bottom|center"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnG" />
 
@@ -89,6 +107,9 @@
         android:layout_weight="1"
         android:background="@drawable/piano_button_background"
         android:text="b"
+        android:textSize="30dp"
+        android:gravity="bottom|center"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -149,7 +170,7 @@
 
     <Button
         android:id="@+id/blackKey2"
-        android:layout_width="22dp"
+        android:layout_width="30dp"
         android:layout_height="140dp"
         android:background="@android:color/background_dark"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -161,7 +182,7 @@
 
     <Button
         android:id="@+id/blackKey5"
-        android:layout_width="22dp"
+        android:layout_width="30dp"
         android:layout_height="140dp"
         android:background="@android:color/background_dark"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -173,7 +194,7 @@
 
     <Button
         android:id="@+id/BlackKey4"
-        android:layout_width="22dp"
+        android:layout_width="30dp"
         android:layout_height="140dp"
         android:background="@android:color/background_dark"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -185,7 +206,7 @@
 
     <Button
         android:id="@+id/BlackKey3"
-        android:layout_width="22dp"
+        android:layout_width="30dp"
         android:layout_height="140dp"
         android:background="@android:color/background_dark"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -197,7 +218,7 @@
 
     <Button
         android:id="@+id/blackKey1"
-        android:layout_width="19dp"
+        android:layout_width="23dp"
         android:layout_height="139dp"
         android:background="@android:color/background_dark"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -209,7 +230,7 @@
 
     <Button
         android:id="@+id/BlackKey6"
-        android:layout_width="17dp"
+        android:layout_width="21dp"
         android:layout_height="139dp"
         android:background="@android:color/background_dark"
         app:layout_constraintBottom_toBottomOf="parent"
