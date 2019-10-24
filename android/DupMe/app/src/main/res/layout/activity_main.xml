@@ -4,39 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/login_page_background"
     tools:context=".MainActivity">
 
     <Button
         android:id="@+id/btnFindMatch_main"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginEnd="60dp"
+        android:layout_marginStart="500dp"
+        android:layout_marginEnd="100dp"
         android:text="Find Match"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.698" />
+        app:layout_constraintVertical_bias="0.87" />
 
     <EditText
         android:id="@+id/edtUsername_main"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="320dp"
+        android:layout_marginBottom="2dp"
         android:ems="10"
         android:hint="Username"
         android:inputType="textPersonName"
+        android:backgroundTint="#ffffff"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"
         app:layout_constraintBottom_toTopOf="@+id/btnFindMatch_main"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.553" />
 
     <ProgressBar
         android:id="@+id/prgBar_main"
@@ -60,8 +63,10 @@
         android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnStart_main"
@@ -77,15 +82,16 @@
         android:id="@+id/Press_to_continue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:rotation="-13"
         android:text="Press to continue"
-        android:textColor="@color/button_focused"
+        android:textColor="#000000"
         android:translationZ="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.959" />
+        app:layout_constraintVertical_bias="0.653" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
