@@ -360,7 +360,7 @@ class GamePlayerActivity : AppCompatActivity() {
             bolPlay = strResponse == "1"
             bolNextTurn = true
 
-            val strResponse1 = mBoundSocketService!!.requestFromServer("start_match")
+            val strResponse1 = mBoundSocketService!!.requestFromServer("ready")
 
             if(strResponse1 == "1") {
                 playGame()
