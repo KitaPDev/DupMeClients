@@ -13,6 +13,7 @@ import android.view.View
 import com.ise.kitap.dupme.lib.SharedPreference
 import com.ise.kitap.dupme.services.SocketService
 import kotlinx.android.synthetic.main.activity_gameplayer.*
+import java.util.concurrent.atomic.AtomicBoolean
 
 class GamePlayerActivity : AppCompatActivity() {
 
@@ -62,7 +63,7 @@ class GamePlayerActivity : AppCompatActivity() {
         } else {
             setTimer(10000)
             disableKeys()
-            getOpponentKeysThread.bolRun = true
+            getOpponentKeysThread.atomicBoolean.set(true)
             getOpponentKeysThread.start()
         }
         turn += 1
@@ -73,15 +74,13 @@ class GamePlayerActivity : AppCompatActivity() {
             setTimer(20000)
             enableKeys()
 
-            getOpponentKeysThread.bolStop = true
-            getOpponentKeysThread.bolRun = false
+            getOpponentKeysThread.atomicBoolean.set(false)
 
         } else {
             setTimer(20000)
             disableKeys()
 
-            getOpponentKeysThread.bolStop = false
-            getOpponentKeysThread.bolRun = true
+            getOpponentKeysThread.atomicBoolean.set(true)
             getOpponentKeysThread.start()
         }
         turn += 1
@@ -96,15 +95,13 @@ class GamePlayerActivity : AppCompatActivity() {
             setTimer(10000)
             enableKeys()
 
-            getOpponentKeysThread.bolStop = true
-            getOpponentKeysThread.bolRun = false
+            getOpponentKeysThread.atomicBoolean.set(false)
 
         } else {
             setTimer(10000)
             disableKeys()
 
-            getOpponentKeysThread.bolStop = false
-            getOpponentKeysThread.bolRun = true
+            getOpponentKeysThread.atomicBoolean.set(true)
             getOpponentKeysThread.start()
         }
         turn += 1
@@ -115,15 +112,13 @@ class GamePlayerActivity : AppCompatActivity() {
             setTimer(20000)
             enableKeys()
 
-            getOpponentKeysThread.bolStop = true
-            getOpponentKeysThread.bolRun = false
+            getOpponentKeysThread.atomicBoolean.set(false)
 
         } else {
             setTimer(20000)
             disableKeys()
 
-            getOpponentKeysThread.bolStop = false
-            getOpponentKeysThread.bolRun = true
+            getOpponentKeysThread.atomicBoolean.set(true)
             getOpponentKeysThread.start()
         }
         turn += 1
@@ -363,27 +358,15 @@ class GamePlayerActivity : AppCompatActivity() {
 
     inner class GetOpponentKeysThread : Thread() {
 
-        var bolStop = false
-        var bolRun = false
+        var atomicBoolean: AtomicBoolean = AtomicBoolean(false)
 
         override fun run() {
             super.run()
             val strMessage = "get_key"
-
-            while(bolStart) {
-
-                if(bolStop) {
-                    break
-                }
-
-                if(bolRun) {
-                    val strResponse = mBoundSocketService?.requestFromServer(strMessage)
-                    if (strResponse != null) {
-                        updateOpponentKeys(strResponse)
-                    }
-                }
+            val strResponse = mBoundSocketService?.requestFromServer(strMessage)
+            if (strResponse != null) {
+                updateOpponentKeys(strResponse)
             }
         }
     }
-
 }
