@@ -140,7 +140,7 @@ class GamePlayerActivity : AppCompatActivity() {
             }
 
             override fun onTick(millisUntilFinished: Long) {
-                val strTime = (millisUntilFinished/1000).toString() + "seconds"
+                val strTime = (millisUntilFinished/1000).toString()
                 Timer.text = strTime
             }
         }
