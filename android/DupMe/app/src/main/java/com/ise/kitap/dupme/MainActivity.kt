@@ -22,7 +22,6 @@ open class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         //For welcomePage to show only once
         if (!WelcomePage.isAppStart){
             welcomePage()

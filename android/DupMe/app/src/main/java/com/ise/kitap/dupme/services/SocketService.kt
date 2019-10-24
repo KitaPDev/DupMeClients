@@ -23,14 +23,17 @@ class SocketService : Service() {
         fun getService(): SocketService = this@SocketService
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        Thread(ClientSocket()).start()
+    }
+
     override fun onBind(p0: Intent?): IBinder? {
         return binder
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-
-        Thread(ClientSocket()).start()
         return START_STICKY
     }
 
@@ -53,7 +56,6 @@ class SocketService : Service() {
                 input = BufferedReader(InputStreamReader(socket.getInputStream()))
 
                 println("Connected!")
-
             } catch(e: Exception) {
                 println("Socket Error")
                 e.printStackTrace()
