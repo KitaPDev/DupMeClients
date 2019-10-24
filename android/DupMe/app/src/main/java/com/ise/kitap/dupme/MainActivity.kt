@@ -40,7 +40,7 @@ open class MainActivity : AppCompatActivity() {
 
         btnStart_main.setOnClickListener {
             startMainActivity()
-            startActivity(Intent(this, FindMatchActivity::class.java))
+//            startActivity(Intent(this, GamePlayerActivity::class.java))
         }
 
         btnFindMatch_main.setOnClickListener {
@@ -103,6 +103,13 @@ open class MainActivity : AppCompatActivity() {
         edtUsername_main.visibility = View.INVISIBLE
         btnFindMatch_main.visibility = View.INVISIBLE
         background.setBackgroundColor(rgb(211,211,211))
+    }
+
+    private fun cancelProgressBar(){
+        prgBar_main.visibility = View.INVISIBLE
+        edtUsername_main.visibility = View.VISIBLE
+        btnFindMatch_main.visibility = View.VISIBLE
+        background.setBackgroundColor(rgb(255,255,255))
     }
 
     fun welcomePage(){
