@@ -7,6 +7,7 @@ import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
+import android.view.View
 import com.ise.kitap.dupme.lib.SharedPreference
 import com.ise.kitap.dupme.services.SocketService
 import kotlinx.android.synthetic.main.activity_find_match.*
@@ -21,6 +22,9 @@ class FindMatchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_find_match)
+
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        actionBar?.hide()
 
         val intentService = Intent(this, SocketService::class.java)
         startService(intentService)

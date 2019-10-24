@@ -27,6 +27,9 @@ class ScoreboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scoreboard)
 
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        actionBar?.hide()
+
         val sharedPreference = SharedPreference(this)
         val strUsername = sharedPreference.getValueString("username").toString()
         val strUsernameOpponent = sharedPreference.getValueString("username_opponent").toString()

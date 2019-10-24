@@ -34,6 +34,9 @@ class GamePlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gameplayer)
 
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        actionBar?.hide()
+
         val intentService = Intent(this, SocketService::class.java)
         bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
 
