@@ -28,7 +28,7 @@ class GamePlayerActivity : AppCompatActivity() {
     private var lsKeysOpponent = ArrayList<String>()
     private var turn = 0
 
-    private var bolStart = false
+    private var bolPlay = false
     private var bolNextTurn = true
     private var bolThreadRun = false
     private var bolNewKey = false
@@ -78,7 +78,7 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun firstTurn() {
-        if(bolStart) {
+        if(bolPlay) {
             setTimer(10000)
             enableKeys()
 
@@ -93,7 +93,7 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun secondTurn() {
-        bolThreadRun = if(bolStart) {
+        bolThreadRun = if(bolPlay) {
             setTimer(20000)
             enableKeys()
 
@@ -111,9 +111,9 @@ class GamePlayerActivity : AppCompatActivity() {
     private fun thirdTurn() {
         lsKeys.clear()
         lsKeysOpponent.clear()
-        bolStart = !bolStart
+        bolPlay = !bolPlay
 
-        bolThreadRun = if(bolStart) {
+        bolThreadRun = if(bolPlay) {
             setTimer(10000)
             enableKeys()
 
@@ -129,7 +129,7 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun fourthTurn() {
-        bolThreadRun = if(bolStart) {
+        bolThreadRun = if(bolPlay) {
             setTimer(20000)
             enableKeys()
 
@@ -147,7 +147,7 @@ class GamePlayerActivity : AppCompatActivity() {
     private fun setTimer(long: Long){
         val timer = object : CountDownTimer(long, 1000) {
             override fun onFinish() {
-                bolStart = !bolStart
+                bolPlay = !bolPlay
                 bolNextTurn = true
                 playGame()
             }
@@ -174,7 +174,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
         btnC.setOnClickListener {
             soundPool.play(soundC,1F, 1F, 0, 0 , 1F)
-            if(bolStart) {
+            if(bolPlay) {
                 mBoundSocketService?.sendToServer("C")
                 lsKeys.add("C")
 
@@ -190,7 +190,7 @@ class GamePlayerActivity : AppCompatActivity() {
         }
         btnD.setOnClickListener {
             soundPool.play(soundD,1F, 1F, 0, 0 , 1F)
-            if(bolStart) {
+            if(bolPlay) {
                 mBoundSocketService?.sendToServer("D")
                 lsKeys.add("D")
 
@@ -206,7 +206,7 @@ class GamePlayerActivity : AppCompatActivity() {
         }
         btnE.setOnClickListener {
             soundPool.play(soundE,1F, 1F, 0, 0 , 1F)
-            if(bolStart) {
+            if(bolPlay) {
                 mBoundSocketService?.sendToServer("E")
                 lsKeys.add("E")
 
@@ -221,7 +221,7 @@ class GamePlayerActivity : AppCompatActivity() {
         }
         btnF.setOnClickListener {
             soundPool.play(soundF,1F, 1F, 0, 0 , 1F)
-            if(bolStart) {
+            if(bolPlay) {
                 mBoundSocketService?.sendToServer("F")
                 lsKeys.add("F")
 
@@ -236,7 +236,7 @@ class GamePlayerActivity : AppCompatActivity() {
         }
         btnG.setOnClickListener {
             soundPool.play(soundG,1F, 1F, 0, 0 , 1F)
-            if(bolStart) {
+            if(bolPlay) {
                 mBoundSocketService?.sendToServer("G")
                 lsKeys.add("G")
 
@@ -251,7 +251,7 @@ class GamePlayerActivity : AppCompatActivity() {
         }
         btnA.setOnClickListener {
             soundPool.play(soundA,1F, 1F, 0, 0 , 1F)
-            if(bolStart) {
+            if(bolPlay) {
                 mBoundSocketService?.sendToServer("A")
                 lsKeys.add("A")
 
@@ -266,7 +266,7 @@ class GamePlayerActivity : AppCompatActivity() {
         }
         btnB.setOnClickListener {
             soundPool.play(soundB,1F, 1F, 0, 0 , 1F)
-            if(bolStart) {
+            if(bolPlay) {
                 mBoundSocketService?.sendToServer("B")
                 lsKeys.add("B")
 
@@ -357,9 +357,14 @@ class GamePlayerActivity : AppCompatActivity() {
 
             val strResponse = mBoundSocketService!!.requestFromServer("get_start_bit")
 
-            bolStart = strResponse == "1"
+            bolPlay = strResponse == "1"
             bolNextTurn = true
-            playGame()
+
+            val strResponse1 = mBoundSocketService!!.requestFromServer("start_match")
+
+            if(strResponse1 == "1") {
+                playGame()
+            }
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
