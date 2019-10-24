@@ -41,6 +41,7 @@ open class MainActivity : AppCompatActivity() {
 
         btnStart_main.setOnClickListener {
             startMainActivity()
+            startActivity(Intent(this, FindMatchActivity::class.java))
         }
 
         btnFindMatch_main.setOnClickListener {
