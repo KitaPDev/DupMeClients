@@ -34,9 +34,7 @@ class FindMatchActivity : AppCompatActivity() {
     private fun findMatch() {
         var strResponse = REQ_AGAIN
         val strMessage = "find_match"
-        while(strResponse == REQ_AGAIN) {
-            strResponse = mBoundSocketService?.requestFromServer(strMessage).toString()
-        }
+        strResponse = mBoundSocketService?.requestFromServer(strMessage).toString()
 
         val lsStrResponse = strResponse.split(' ')
         val sharedPreference = SharedPreference(this)

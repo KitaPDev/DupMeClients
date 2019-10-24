@@ -140,8 +140,6 @@ open class MainActivity : AppCompatActivity() {
         animate.fillAfter = true
         view.startAnimation(animate)
     }
-
-
 }
 
 
