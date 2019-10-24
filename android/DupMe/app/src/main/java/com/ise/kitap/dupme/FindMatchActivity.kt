@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.IBinder
 import android.view.View
 import com.ise.kitap.dupme.lib.SharedPreference
@@ -23,10 +24,18 @@ class FindMatchActivity : AppCompatActivity() {
 
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         actionBar?.hide()
-
         val intentService = Intent(this, SocketService::class.java)
-        startService(intentService)
-        bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
+
+        val timer = object : CountDownTimer(5000, 1000) {
+            override fun onFinish() {
+                startService(intentService)
+                bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
+            }
+
+            override fun onTick(millisUntilFinished: Long) {}
+
+        }
+        timer.start()
 
         btnCancel_findMatch.setOnClickListener {
             cancelMatch()
