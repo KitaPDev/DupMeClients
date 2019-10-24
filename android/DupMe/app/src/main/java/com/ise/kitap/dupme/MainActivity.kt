@@ -24,11 +24,12 @@ open class MainActivity : AppCompatActivity() {
 
 
         //For welcomePage to show only once
-        if (WelcomePage.isAppStart){
-            btnStart_main.visibility = View.INVISIBLE
-        }else {
+        if (!WelcomePage.isAppStart){
             welcomePage()
             WelcomePage.isAppStart = true
+        } else {
+            btnStart_main.visibility = View.INVISIBLE
+            Press_to_continue.visibility = View.INVISIBLE
         }
 
         val sharedPreference = SharedPreference(this)
@@ -40,10 +41,6 @@ open class MainActivity : AppCompatActivity() {
 
         btnStart_main.setOnClickListener {
             startMainActivity()
-<<<<<<< HEAD
-//            startActivity(Intent(this, GamePlayerActivity::class.java))
-=======
->>>>>>> c9a5d1932c4fdf1601beb356c576e00594c571bb
         }
 
         btnFindMatch_main.setOnClickListener {
