@@ -22,32 +22,36 @@ open class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         //For welcomePage to show only once
         if (WelcomePage.isAppStart){
             btnStart_main.visibility = View.INVISIBLE
-
-        } else {
+            WelcomePageBackground.visibility = View.INVISIBLE
+        }else {
             welcomePage()
             WelcomePage.isAppStart = true
         }
 
+        val sharedPreference = SharedPreference(this)
+
         val intentService = Intent(this, SocketService::class.java)
+//        intentService.putExtra("clientMessage", "set_username $strUsername")
         startService(intentService)
         bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
 
         btnStart_main.setOnClickListener {
             startMainActivity()
+            startActivity(Intent(this, FindMatchActivity::class.java))
         }
 
         btnFindMatch_main.setOnClickListener {
             setProgressBar()
             if(verifyUserInput()) {
 
-                val sharedPreference = SharedPreference(this)
                 sharedPreference.save("username", strUsername)
-                unbindService(serviceConnection)
 
                 val intentActivity = Intent(this, FindMatchActivity::class.java)
+                unbindService(serviceConnection)
                 startActivity(intentActivity)
             }
         }
@@ -63,7 +67,7 @@ open class MainActivity : AppCompatActivity() {
             return false
         }
 
-        val strMessage = "set_username $strUsername"
+        var strMessage = "set_username $strUsername"
         val strResponse = mBoundSocketService?.requestFromServer(strMessage)
 
         if(strResponse.equals("OK")) {
@@ -111,6 +115,7 @@ open class MainActivity : AppCompatActivity() {
         edtUsername_main.visibility = View.VISIBLE
         btnFindMatch_main.visibility = View.VISIBLE
         btnStart_main.visibility = View.INVISIBLE
+        WelcomePageBackground.visibility = View.INVISIBLE
         startAnimationShow(edtUsername_main)
         startAnimationShow(btnFindMatch_main)
     }
