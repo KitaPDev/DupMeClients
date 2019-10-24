@@ -18,7 +18,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
     var mBoundSocketService: SocketService? = null
     var isBound = false
-    private val getOpponentKeysThread = GetOpponentKeysThread()
+    private val getOpponentKeysThread = GetOpponentKeysThread(this)
 
     private var strUsername: String = ""
     private var strUsernameOpponent: String = ""
@@ -54,13 +54,14 @@ class GamePlayerActivity : AppCompatActivity() {
         txtUsernameOpponent.text = strUsernameOpponent
         txtScore.text = iScore.toString()
         txtScoreOpponent.text = iScoreOpponent.toString()
-        runOnUiThread(getOpponentKeysThread)
 
         disableKeys()
         setupKeys()
     }
 
     private fun playGame() {
+        getOpponentKeysThread.run()
+
         if(bolNextTurn) {
             when(turn) {
                 0 -> firstTurn()
@@ -372,7 +373,7 @@ class GamePlayerActivity : AppCompatActivity() {
         }
     }
 
-    inner class GetOpponentKeysThread : Runnable {
+    inner class GetOpponentKeysThread(context: GamePlayerActivity) : Runnable {
 
         override fun run() {
             if(bolThreadRun) {
