@@ -25,6 +25,7 @@ open class MainActivity : AppCompatActivity() {
         //For welcomePage to show only once
         if (WelcomePage.isAppStart){
             btnStart_main.visibility = View.INVISIBLE
+            WelcomePageBackground.visibility = View.INVISIBLE
         }else {
             welcomePage()
             WelcomePage.isAppStart = true
