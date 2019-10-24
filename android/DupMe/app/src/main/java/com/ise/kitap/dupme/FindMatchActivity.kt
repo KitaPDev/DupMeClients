@@ -54,10 +54,10 @@ class FindMatchActivity : AppCompatActivity() {
         if(lsStrResponse.size > 1) {
             if(lsStrResponse[1] == "start") {
                 sharedPreference.save("start_flag", true)
-
-            } else {
-                sharedPreference.save("start_flag", false)
             }
+
+        }  else {
+            sharedPreference.save("start_flag", false)
         }
 
         startActivity(intent)
