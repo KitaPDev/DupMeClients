@@ -51,11 +51,11 @@ class ScoreboardActivity : AppCompatActivity() {
         txtScoreFinal2.text = iScoreOpponent.toString()
 
         btnPlayAgain.setOnClickListener {
-            mBoundSocketService?.stopSelf()
-            startActivity(Intent(this, MainActivity::class.java))
-        }
-        btnLeave.setOnClickListener {
             startActivity(Intent(this, FindMatchActivity::class.java))
+        }
+
+        btnLeave.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 
