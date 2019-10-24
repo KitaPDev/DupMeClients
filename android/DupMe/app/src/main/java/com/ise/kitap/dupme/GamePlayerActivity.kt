@@ -65,7 +65,7 @@ class GamePlayerActivity : AppCompatActivity() {
             disableKeys()
             getOpponentKeysThread.start()
         }
-        turn.inc()
+        turn += 1
     }
 
     private fun secondTurn() {
@@ -81,7 +81,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
             getOpponentKeysThread.start()
         }
-        turn.inc()
+        turn += 1
     }
 
     private fun thirdTurn() {
@@ -102,7 +102,7 @@ class GamePlayerActivity : AppCompatActivity() {
             getOpponentKeysThread.bolStop = false
             getOpponentKeysThread.start()
         }
-        turn.inc()
+        turn += 1
     }
 
     private fun fourthTurn() {
@@ -119,8 +119,7 @@ class GamePlayerActivity : AppCompatActivity() {
             getOpponentKeysThread.bolStop = false
             getOpponentKeysThread.start()
         }
-
-        turn.inc()
+        turn += 1
     }
 
     private fun setTimer(long: Long){
