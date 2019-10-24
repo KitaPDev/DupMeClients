@@ -312,27 +312,19 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun updateOpponentKeys(response: String) {
-        val lsKeyIDs = response.split(' ')
-        lsKeysOpponent.addAll(lsKeyIDs)
-        val iterator = lsKeyIDs.iterator()
+        when (response) {
+            "C" -> btnC.performClick()
+            "D" -> btnD.performClick()
+            "E" -> btnE.performClick()
+            "F" -> btnF.performClick()
+            "G" -> btnG.performClick()
+            "A" -> btnA.performClick()
+            "B" -> btnB.performClick()
+        }
 
-        while(iterator.hasNext()) {
-            val keyID = iterator.next()
-
-            when (keyID) {
-                "C" -> btnC.performClick()
-                "D" -> btnD.performClick()
-                "E" -> btnE.performClick()
-                "F" -> btnF.performClick()
-                "G" -> btnG.performClick()
-                "A" -> btnA.performClick()
-                "B" -> btnB.performClick()
-            }
-
-            if(keyID == lsKeys[0]) {
-                iScoreOpponent.inc()
-                lsKeys.removeAt(0)
-            }
+        if(response == lsKeys[0]) {
+            iScoreOpponent.inc()
+            lsKeys.removeAt(0)
         }
     }
 
@@ -341,8 +333,8 @@ class GamePlayerActivity : AppCompatActivity() {
         intent.putExtra("score", iScore)
         intent.putExtra("score_opponent", iScoreOpponent)
 
-        unbindService(serviceConnection)
         startActivity(intent)
+        unbindService(serviceConnection)
     }
 
     private val serviceConnection = object : ServiceConnection {
@@ -366,6 +358,7 @@ class GamePlayerActivity : AppCompatActivity() {
         override fun run() {
             super.run()
             val strMessage = "get_keys"
+
             while(bolStart) {
 
                 if(bolStop) {
