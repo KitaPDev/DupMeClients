@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FindMatchActivity">
+    tools:context=".FindMatchActivity"
+    android:background="@drawable/findMatch"
+    >
 
     <ProgressBar
         android:id="@+id/prgBar_findMatch"
@@ -18,7 +20,7 @@
         app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498" />
+        app:layout_constraintVertical_bias="0.363" />
 
     <Button
         android:id="@+id/btnCancel_findMatch"
