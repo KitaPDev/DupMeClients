@@ -48,8 +48,8 @@ open class MainActivity : AppCompatActivity() {
                 sharedPreference.save("username", strUsername)
 
                 val intentActivity = Intent(this, FindMatchActivity::class.java)
-                unbindService(serviceConnection)
                 startActivity(intentActivity)
+                unbindService(serviceConnection)
 
                 setProgressBar(false)
             } else {

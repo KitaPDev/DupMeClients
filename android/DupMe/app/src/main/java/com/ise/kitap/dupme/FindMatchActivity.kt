@@ -24,13 +24,11 @@ class FindMatchActivity : AppCompatActivity() {
 
         val intentService = Intent(this, SocketService::class.java)
         startService(intentService)
-        bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
+        applicationContext.bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
 
         btnCancel_findMatch.setOnClickListener {
             cancelMatch()
         }
-
-        findMatch()
     }
 
     private fun findMatch() {
@@ -54,7 +52,9 @@ class FindMatchActivity : AppCompatActivity() {
             }
         }
 
-        unbindService(serviceConnection)
+        if(isBound) {
+            applicationContext.unbindService(serviceConnection)
+        }
         startActivity(intent)
     }
 
@@ -63,11 +63,18 @@ class FindMatchActivity : AppCompatActivity() {
             val binder = service as SocketService.LocalBinder
             mBoundSocketService = binder.getService()
             isBound = true
+
+            findMatch()
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
             isBound = false
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+//        serviceConnection.onServiceDisconnected()
     }
 
     override fun onDestroy() {
