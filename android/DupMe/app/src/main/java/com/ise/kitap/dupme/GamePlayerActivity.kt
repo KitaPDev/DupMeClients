@@ -18,10 +18,17 @@ class GamePlayerActivity : AppCompatActivity() {
 
     var mBoundSocketService: SocketService? = null
     var isBound = false
+    private val getOpponentKeysThread = GetOpponentKeysThread()
+
     private var strUsername: String = ""
     private var strUsernameOpponent: String = ""
     private var iScore = 0
     private var iScoreOpponent = 0
+    private var lsKeys = ArrayList<String>()
+    private var lsKeysOpponent = ArrayList<String>()
+    private var turn = 0
+
+    private var bolStart = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,31 +40,101 @@ class GamePlayerActivity : AppCompatActivity() {
         val sharedPreference = SharedPreference(this)
         strUsername = sharedPreference.getValueString("username").toString()
         strUsernameOpponent = sharedPreference.getValueString("username_opponent").toString()
+        bolStart = sharedPreference.getValueBoolean("start_flag")
 
         txtUsername.text = strUsername
         txtUsernameOpponent.text = strUsernameOpponent
         txtScore.text = iScore.toString()
         txtScoreOpponent.text = iScoreOpponent.toString()
 
+        disableKeys()
         setupKeys()
-        playGame()
+        firstTurn()
     }
 
-    private fun playGame() {
-        while(true) {
+    private fun firstTurn() {
+        if(bolStart) {
+            setTimer(20000)
+            enableKeys()
 
-
+        } else {
+            setTimer(20000)
+            disableKeys()
+            getOpponentKeysThread.start()
         }
+        turn.inc()
     }
 
-    private fun setupTimer(long: Long){
-        val timer = object : CountDownTimer(long, 1000) {
-            override fun onFinish() {}
+    private fun secondTurn() {
+        if(bolStart) {
+            setTimer(10000)
+            enableKeys()
 
-            override fun onTick(millisUntilFinished: Long) {
-                Timer.text = (millisUntilFinished/1000).toString() + "seconds"
+            getOpponentKeysThread.bolStop = true
+
+        } else {
+            setTimer(10000)
+            disableKeys()
+
+            getOpponentKeysThread.start()
+        }
+        turn.inc()
+    }
+
+    private fun thirdTurn() {
+        lsKeys.clear()
+        lsKeysOpponent.clear()
+        bolStart = !bolStart
+
+        if(bolStart) {
+            setTimer(20000)
+            enableKeys()
+
+            getOpponentKeysThread.bolStop = true
+
+        } else {
+            setTimer(20000)
+            disableKeys()
+
+            getOpponentKeysThread.bolStop = false
+            getOpponentKeysThread.start()
+        }
+        turn.inc()
+    }
+
+    private fun fourthTurn() {
+        if(bolStart) {
+            setTimer(10000)
+            enableKeys()
+
+            getOpponentKeysThread.bolStop = true
+
+        } else {
+            setTimer(10000)
+            disableKeys()
+
+            getOpponentKeysThread.bolStop = false
+            getOpponentKeysThread.start()
+        }
+
+    }
+
+    private fun setTimer(long: Long){
+        val timer = object : CountDownTimer(long, 1000) {
+            override fun onFinish() {
+                bolStart = !bolStart
+
+                when (turn) {
+                    1 -> secondTurn()
+                    2 -> thirdTurn()
+                    3 -> fourthTurn()
+                }
             }
 
+            override fun onTick(millisUntilFinished: Long) {
+                val strTime = (millisUntilFinished/1000).toString() + "seconds"
+                Timer.text = strTime
+            }
         }
         timer.start()
     }
@@ -76,38 +153,110 @@ class GamePlayerActivity : AppCompatActivity() {
 
         btnC.setOnClickListener {
             soundPool.play(soundC,1F, 1F, 0, 0 , 1F)
-            delayBetweenClicks()
+            if(bolStart) {
+                mBoundSocketService?.sendToServer("C")
+                lsKeys.add("C")
 
+                if(lsKeysOpponent.isNotEmpty()) {
+                    if(lsKeysOpponent[0] == "C") {
+                        iScore.inc()
+                        lsKeysOpponent.removeAt(0)
+                    }
+                }
+            }
+
+            delayBetweenClicks()
         }
         btnD.setOnClickListener {
             soundPool.play(soundD,1F, 1F, 0, 0 , 1F)
-            delayBetweenClicks()
+            if(bolStart) {
+                mBoundSocketService?.sendToServer("D")
+                lsKeys.add("D")
 
+                if(lsKeysOpponent.isNotEmpty()) {
+                    if(lsKeysOpponent[0] == "D") {
+                        iScore.inc()
+                        lsKeysOpponent.removeAt(0)
+                    }
+                }
+
+            }
+            delayBetweenClicks()
         }
         btnE.setOnClickListener {
             soundPool.play(soundE,1F, 1F, 0, 0 , 1F)
-            delayBetweenClicks()
+            if(bolStart) {
+                mBoundSocketService?.sendToServer("E")
+                lsKeys.add("E")
 
+                if(lsKeysOpponent.isNotEmpty()) {
+                    if(lsKeysOpponent[0] == "E") {
+                        iScore.inc()
+                        lsKeysOpponent.removeAt(0)
+                    }
+                }
+            }
+            delayBetweenClicks()
         }
         btnF.setOnClickListener {
             soundPool.play(soundF,1F, 1F, 0, 0 , 1F)
-            delayBetweenClicks()
+            if(bolStart) {
+                mBoundSocketService?.sendToServer("F")
+                lsKeys.add("F")
 
+                if(lsKeysOpponent.isNotEmpty()) {
+                    if(lsKeysOpponent[0] == "F") {
+                        iScore.inc()
+                        lsKeysOpponent.removeAt(0)
+                    }
+                }
+            }
+            delayBetweenClicks()
         }
         btnG.setOnClickListener {
             soundPool.play(soundG,1F, 1F, 0, 0 , 1F)
-            delayBetweenClicks()
+            if(bolStart) {
+                mBoundSocketService?.sendToServer("G")
+                lsKeys.add("G")
 
+                if(lsKeysOpponent.isNotEmpty()) {
+                    if(lsKeysOpponent[0] == "G") {
+                        iScore.inc()
+                        lsKeysOpponent.removeAt(0)
+                    }
+                }
+            }
+            delayBetweenClicks()
         }
         btnA.setOnClickListener {
             soundPool.play(soundA,1F, 1F, 0, 0 , 1F)
-            delayBetweenClicks()
+            if(bolStart) {
+                mBoundSocketService?.sendToServer("A")
+                lsKeys.add("A")
 
+                if(lsKeysOpponent.isNotEmpty()) {
+                    if(lsKeysOpponent[0] == "A") {
+                        iScore.inc()
+                        lsKeysOpponent.removeAt(0)
+                    }
+                }
+            }
+            delayBetweenClicks()
         }
         btnB.setOnClickListener {
             soundPool.play(soundB,1F, 1F, 0, 0 , 1F)
-            delayBetweenClicks()
+            if(bolStart) {
+                mBoundSocketService?.sendToServer("B")
+                lsKeys.add("B")
 
+                if(lsKeysOpponent.isNotEmpty()) {
+                    if(lsKeysOpponent[0] == "B") {
+                        iScore.inc()
+                        lsKeysOpponent.removeAt(0)
+                    }
+                }
+            }
+            delayBetweenClicks()
         }
     }
 
@@ -154,6 +303,24 @@ class GamePlayerActivity : AppCompatActivity() {
         timer.start()
     }
 
+    private fun updateOpponentKeys(response: String) {
+        val lsIDs = response.split(' ')
+        lsKeysOpponent.addAll(lsIDs)
+        val iterator = lsIDs.iterator()
+
+        while(iterator.hasNext()) {
+            when (iterator.next()) {
+                "C" -> btnC.performClick()
+                "D" -> btnD.performClick()
+                "E" -> btnE.performClick()
+                "F" -> btnF.performClick()
+                "G" -> btnG.performClick()
+                "A" -> btnA.performClick()
+                "B" -> btnB.performClick()
+            }
+        }
+    }
+
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
             val binder = service as SocketService.LocalBinder
@@ -163,6 +330,27 @@ class GamePlayerActivity : AppCompatActivity() {
 
         override fun onServiceDisconnected(name: ComponentName?) {
             isBound = false
+        }
+    }
+
+    inner class GetOpponentKeysThread : Thread() {
+
+        var bolStop = false
+
+        override fun run() {
+            super.run()
+            val strMessage = "get_keys"
+            while(bolStart) {
+
+                if(bolStop) {
+                    break
+                }
+
+                val strResponse = mBoundSocketService?.requestFromServer(strMessage)
+                if (strResponse != null) {
+                    updateOpponentKeys(strResponse)
+                }
+            }
         }
     }
 
