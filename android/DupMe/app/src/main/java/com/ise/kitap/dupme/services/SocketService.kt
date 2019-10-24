@@ -25,7 +25,6 @@ class SocketService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        Thread(ClientSocket()).start()
     }
 
     override fun onBind(p0: Intent?): IBinder? {
@@ -34,6 +33,7 @@ class SocketService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
+        Thread(ClientSocket()).start()
         return START_STICKY
     }
 
@@ -51,7 +51,9 @@ class SocketService : Service() {
             try {
                 println("Client Connecting...")
 
-                socket = Socket(serverIP, serverPort)
+                if(socket.isConnected) {
+                    socket = Socket(serverIP, serverPort)
+                }
                 output = BufferedWriter(OutputStreamWriter(socket.getOutputStream()))
                 input = BufferedReader(InputStreamReader(socket.getInputStream()))
 
