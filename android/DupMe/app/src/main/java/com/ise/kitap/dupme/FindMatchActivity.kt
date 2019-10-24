@@ -44,7 +44,7 @@ class FindMatchActivity : AppCompatActivity() {
         sharedPreference.save("username_opponent", lsStrResponse[0])
 
         val intent = Intent(this, GamePlayerActivity::class.java)
-        if(lsStrResponse.size == 1) {
+        if(lsStrResponse.size > 1) {
             if(lsStrResponse[1] == "start") {
                 sharedPreference.save("start_flag", true)
 
