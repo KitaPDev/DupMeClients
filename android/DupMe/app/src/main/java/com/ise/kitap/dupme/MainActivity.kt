@@ -51,6 +51,9 @@ open class MainActivity : AppCompatActivity() {
                 val intentActivity = Intent(this, FindMatchActivity::class.java)
                 unbindService(serviceConnection)
                 startActivity(intentActivity)
+
+            } else {
+
             }
         }
     }
@@ -60,6 +63,12 @@ open class MainActivity : AppCompatActivity() {
 
         if(strUsername.contains(" ")) {
             Toast.makeText(this, "Username must not contain whitespace!",
+                Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if(strUsername.isEmpty()) {
+            Toast.makeText(this, "Must input username!",
                 Toast.LENGTH_SHORT).show()
             return false
         }

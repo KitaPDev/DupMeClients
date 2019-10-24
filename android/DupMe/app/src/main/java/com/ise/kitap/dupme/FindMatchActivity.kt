@@ -44,11 +44,13 @@ class FindMatchActivity : AppCompatActivity() {
         sharedPreference.save("username_opponent", lsStrResponse[0])
 
         val intent = Intent(this, GamePlayerActivity::class.java)
-        if(lsStrResponse[1] == "start") {
-            sharedPreference.save("start_flag", true)
+        if(lsStrResponse.size == 1) {
+            if(lsStrResponse[1] == "start") {
+                sharedPreference.save("start_flag", true)
 
-        } else {
-            sharedPreference.save("start_flag", false)
+            } else {
+                sharedPreference.save("start_flag", false)
+            }
         }
 
         unbindService(serviceConnection)
