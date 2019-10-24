@@ -51,6 +51,7 @@ open class MainActivity : AppCompatActivity() {
                 unbindService(serviceConnection)
                 startActivity(intentActivity)
 
+                setProgressBar(false)
             } else {
                 setProgressBar(false)
             }
