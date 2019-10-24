@@ -32,10 +32,6 @@ class SocketService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
-//        if (intent != null) {
-//           strData = intent.getStringExtra("clientMessage")
-//        }
-
         Thread(ClientSocket()).start()
         return START_STICKY
     }

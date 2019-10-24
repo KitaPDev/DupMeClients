@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_find_match.*
 
 class FindMatchActivity : AppCompatActivity() {
 
-    val REQ_AGAIN = "REQ_AGAIN"
+    private val REQ_AGAIN = "REQ_AGAIN"
 
     var mBoundSocketService: SocketService? = null
     var isBound = false
@@ -23,6 +23,7 @@ class FindMatchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_find_match)
 
         val intentService = Intent(this, SocketService::class.java)
+        startService(intentService)
         bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
 
         btnCancel_findMatch.setOnClickListener {
