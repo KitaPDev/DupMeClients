@@ -102,7 +102,7 @@ class GamePlayerActivity : AppCompatActivity() {
             disableKeys()
 
             getOpponentKeysThread.atomicBoolean.set(true)
-            getOpponentKeysThread.start()
+//            getOpponentKeysThread.start()
         }
         turn += 1
     }
