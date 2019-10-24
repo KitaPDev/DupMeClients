@@ -31,10 +31,7 @@ open class MainActivity : AppCompatActivity() {
             WelcomePage.isAppStart = true
         }
 
-        val sharedPreference = SharedPreference(this)
-
         val intentService = Intent(this, SocketService::class.java)
-
         startService(intentService)
         bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE)
 
@@ -46,6 +43,7 @@ open class MainActivity : AppCompatActivity() {
             setProgressBar()
             if(verifyUserInput()) {
 
+                val sharedPreference = SharedPreference(this)
                 sharedPreference.save("username", strUsername)
                 unbindService(serviceConnection)
 
