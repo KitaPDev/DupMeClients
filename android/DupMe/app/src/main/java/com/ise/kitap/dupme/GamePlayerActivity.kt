@@ -29,8 +29,6 @@ class GamePlayerActivity : AppCompatActivity() {
 
     var mBoundSocketService: SocketService? = null
     var isBound = false
-    var receiveThread = ReceiveThread(this)
-    var asyncReceive = AsyncReceive()
 
     private var strUsername: String = ""
     private var strUsernameOpponent: String = ""
@@ -81,7 +79,6 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun firstTurn() {
-        receiveThread.run()
 
         if(bolPlay) {
             setTimer(10000)
@@ -101,6 +98,7 @@ class GamePlayerActivity : AppCompatActivity() {
     private fun secondTurn() {
         bolPlay = !bolPlay
         bolRunThread = if(bolPlay) {
+
             setTimer(20000)
             enableKeys()
 
@@ -154,11 +152,22 @@ class GamePlayerActivity : AppCompatActivity() {
         turn += 1
     }
 
-    private fun setTimer(long: Long){
+    private fun setTimer(long: Long) {
         val timer = object : CountDownTimer(long, 1000) {
             override fun onFinish() {
                 bolNextTurn = true
-                playGame()
+
+                if(!bolPlay) {
+                    playOpponentKeys()
+                }
+
+                object : CountDownTimer(1000, 1000) {
+                    override fun onFinish() {
+                        playGame()
+                    }
+
+                    override fun onTick(millisUntilFinished: Long) {}
+                }.start()
             }
 
             override fun onTick(millisUntilFinished: Long) {
@@ -167,6 +176,19 @@ class GamePlayerActivity : AppCompatActivity() {
             }
         }
         timer.start()
+    }
+
+    private fun playOpponentKeys() {
+        val strKeys = mBoundSocketService?.requestFromServer("get_keys")
+        val lsKeys = strKeys?.split(' ')
+
+        val iterator = lsKeys?.iterator()
+
+        if (iterator != null) {
+            while(iterator.hasNext()) {
+                updateOpponentKeys(iterator.next())
+            }
+        }
     }
 
     private fun setupKeys() {
@@ -383,35 +405,6 @@ class GamePlayerActivity : AppCompatActivity() {
 
         override fun onServiceDisconnected(name: ComponentName?) {
             isBound = false
-        }
-    }
-
-    inner class ReceiveThread(context: GamePlayerActivity) : Runnable {
-
-        var context: GamePlayerActivity? = null
-
-        init {
-            this.context = context
-        }
-
-        override fun run() {
-            while(true) {
-                if(!bolPlay && asyncReceive.status != AsyncTask.Status.RUNNING) {
-                    asyncReceive.execute()
-                }
-            }
-        }
-    }
-
-    inner class AsyncReceive : AsyncTask<String, Void, String>() {
-        override fun doInBackground(vararg p0: String?): String {
-            socket = mBoundSocketService!!.socket
-
-            input = BufferedReader(InputStreamReader(socket.getInputStream()))
-
-            updateOpponentKeys(input!!.readLine())
-
-            return ""
         }
     }
 }
