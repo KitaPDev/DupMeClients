@@ -59,7 +59,7 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun playGame() {
-        getOpponentKeysThread.run()
+        getOpponentKeysThread.start()
 
         if(bolNextTurn) {
             when(turn) {
@@ -367,7 +367,7 @@ class GamePlayerActivity : AppCompatActivity() {
         }
     }
 
-    inner class GetOpponentKeysThread(context: GamePlayerActivity) : Runnable {
+    inner class GetOpponentKeysThread(context: GamePlayerActivity) : Thread() {
 
         override fun run() {
 
