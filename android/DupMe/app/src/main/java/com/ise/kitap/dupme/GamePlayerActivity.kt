@@ -369,11 +369,12 @@ class GamePlayerActivity : AppCompatActivity() {
             "B" -> btnB.performClick()
         }
 
-        if(response == lsKeys[0]) {
-            iScoreOpponent += 1
-            lsKeys.removeAt(0)
+        if(lsKeys.isNotEmpty()) {
+            if(response == lsKeys[0]) {
+                iScoreOpponent += 1
+                lsKeys.removeAt(0)
+            }
         }
-
         lsKeysOpponent.add(response)
     }
 
