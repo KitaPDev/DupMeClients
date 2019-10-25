@@ -189,7 +189,17 @@ class GamePlayerActivity : AppCompatActivity() {
         if (iterator != null) {
             while(iterator.hasNext()) {
                 if(updateOpponentKeys(iterator.next())) {
-                    continue
+                    var done = false
+                    object : CountDownTimer(1000, 1000) {
+                        override fun onFinish() {
+                            done = true
+                        }
+
+                        override fun onTick(millisUntilFinished: Long) {}
+                    }.start()
+                    while(!done) {
+                        continue
+                    }
                 }
             }
         }
