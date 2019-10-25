@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.media.SoundPool
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -18,7 +19,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
     var mBoundSocketService: SocketService? = null
     var isBound = false
-    private val getOpponentKeysThread = GetOpponentKeysThread(this)
+    var asyncGetKey = AsyncGetKey()
 
     private var strUsername: String = ""
     private var strUsernameOpponent: String = ""
@@ -30,7 +31,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
     private var bolPlay = false
     private var bolNextTurn = true
-    private var bolThreadRun = false
+    private var bolRunThread = false
 
     private var strResponse: String? = ""
 
@@ -59,7 +60,7 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun playGame() {
-        getOpponentKeysThread.start()
+        asyncGetKey.execute()
 
         if(bolNextTurn) {
             when(turn) {
@@ -81,18 +82,20 @@ class GamePlayerActivity : AppCompatActivity() {
             setTimer(10000)
             disableKeys()
 
-            bolThreadRun = true
+            bolRunThread = true
+
         }
         bolNextTurn = false
         turn += 1
     }
 
     private fun secondTurn() {
-        bolThreadRun = if(bolPlay) {
+        bolRunThread = if(bolPlay) {
             setTimer(20000)
             enableKeys()
 
             false
+
         } else {
             setTimer(20000)
             disableKeys()
@@ -108,11 +111,12 @@ class GamePlayerActivity : AppCompatActivity() {
         lsKeysOpponent.clear()
         bolPlay = !bolPlay
 
-        bolThreadRun = if(bolPlay) {
+        bolRunThread = if(bolPlay) {
             setTimer(10000)
             enableKeys()
 
             false
+
         } else {
             setTimer(10000)
             disableKeys()
@@ -124,11 +128,12 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun fourthTurn() {
-        bolThreadRun = if(bolPlay) {
+        bolRunThread = if(bolPlay) {
             setTimer(20000)
             enableKeys()
 
             false
+
         } else {
             setTimer(20000)
             disableKeys()
@@ -334,6 +339,8 @@ class GamePlayerActivity : AppCompatActivity() {
             iScoreOpponent += 1
             lsKeys.removeAt(0)
         }
+
+        lsKeysOpponent.add(response)
     }
 
     private fun finishMatch() {
@@ -367,22 +374,27 @@ class GamePlayerActivity : AppCompatActivity() {
         }
     }
 
-    inner class GetOpponentKeysThread(context: GamePlayerActivity) : Thread() {
-
-        override fun run() {
-
+    inner class AsyncGetKey : AsyncTask<Void, String, Void>() {
+        override fun doInBackground(vararg p0: Void?): Void {
             while(true) {
 
-                if(bolThreadRun) {
+                if(bolRunThread) {
+
                     val strMessage = "get_key"
                     strResponse = mBoundSocketService?.requestFromServer(strMessage)
 
                     if (strResponse != null) {
                         println(strResponse)
-                        updateOpponentKeys(strResponse!!)
+                        publishProgress(strResponse)
                     }
                 }
             }
+        }
+
+        override fun onProgressUpdate(vararg values: String?) {
+            super.onProgressUpdate(*values)
+
+            updateOpponentKeys(strResponse.toString())
         }
     }
 }
