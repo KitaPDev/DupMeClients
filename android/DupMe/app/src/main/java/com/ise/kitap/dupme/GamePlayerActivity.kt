@@ -76,8 +76,6 @@ class GamePlayerActivity : AppCompatActivity() {
             setTimer(10000)
             enableKeys()
 
-            asyncGetKey.cancel(true)
-
         } else {
             setTimer(10000)
             disableKeys()
@@ -95,7 +93,6 @@ class GamePlayerActivity : AppCompatActivity() {
             setTimer(20000)
             enableKeys()
 
-            asyncGetKey.cancel(true)
             false
 
         } else {
@@ -116,7 +113,6 @@ class GamePlayerActivity : AppCompatActivity() {
             setTimer(10000)
             enableKeys()
 
-            asyncGetKey.cancel(true)
             false
 
         } else {
@@ -135,7 +131,6 @@ class GamePlayerActivity : AppCompatActivity() {
             setTimer(20000)
             enableKeys()
 
-            asyncGetKey.cancel(true)
             false
 
         } else {
@@ -158,6 +153,8 @@ class GamePlayerActivity : AppCompatActivity() {
             override fun onTick(millisUntilFinished: Long) {
                 val strTime = (millisUntilFinished/1000).toString()
                 Timer.text = strTime
+
+                asyncGetKey.execute()
             }
         }
         timer.start()
@@ -368,7 +365,6 @@ class GamePlayerActivity : AppCompatActivity() {
             val strResponse1 = mBoundSocketService!!.requestFromServer("ready")
 
             if(strResponse1 == "1") {
-                asyncGetKey.execute()
                 playGame()
             }
         }
@@ -378,20 +374,20 @@ class GamePlayerActivity : AppCompatActivity() {
         }
     }
 
-    inner class AsyncGetKey : AsyncTask<Void, String, Void>() {
-        override fun doInBackground(vararg p0: Void?): Void {
-            while(true) {
-                val strMessage = "get_key"
-                strResponse = mBoundSocketService?.requestFromServer(strMessage)
+    inner class AsyncGetKey : AsyncTask<Void, Void, String>() {
+        override fun doInBackground(vararg p0: Void?): String? {
+            val strMessage = "get_key"
+            strResponse = mBoundSocketService?.requestFromServer(strMessage)
 
-                if (strResponse != null) {
-                    println(strResponse)
-                    publishProgress(strResponse)
-                }
+            if (strResponse != null) {
+                println(strResponse)
+                publishProgress()
             }
+
+            return strResponse
         }
 
-        override fun onProgressUpdate(vararg values: String?) {
+        override fun onProgressUpdate(vararg values: Void?) {
             super.onProgressUpdate(*values)
 
             updateOpponentKeys(strResponse.toString())
