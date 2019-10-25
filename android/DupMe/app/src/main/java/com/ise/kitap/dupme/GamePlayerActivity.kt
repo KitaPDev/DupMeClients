@@ -13,8 +13,20 @@ import android.view.View
 import com.ise.kitap.dupme.lib.SharedPreference
 import com.ise.kitap.dupme.services.SocketService
 import kotlinx.android.synthetic.main.activity_gameplayer.*
+import java.io.BufferedReader
+import java.io.BufferedWriter
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
+import java.net.Socket
 
 class GamePlayerActivity : AppCompatActivity() {
+
+    private val serverIP = "192.168.43.61"
+    private val serverPort = 54321
+
+    var socket = Socket()
+    var output: BufferedWriter? = null
+    var input: BufferedReader? = null
 
     var mBoundSocketService: SocketService? = null
     var isBound = false
@@ -317,7 +329,14 @@ class GamePlayerActivity : AppCompatActivity() {
                 enableKeys()
             }
 
-            override fun onTick(millisUntilFinished: Long) {}
+            override fun onTick(millisUntilFinished: Long) {
+               val strTime = (millisUntilFinished/1000).toString()
+                Timer.text = strTime
+
+                if(!bolPlay) {
+                    receiveDataThread.run()
+                }
+            }
 
         }
         timer.start()
@@ -382,8 +401,13 @@ class GamePlayerActivity : AppCompatActivity() {
         }
 
         override fun run() {
-            if(context?.mBoundSocketService?.input != null) {
-                val response = context?.mBoundSocketService?.input!!.readLine()
+            if(!socket.isConnected) {
+                socket = Socket(serverIP, serverPort)
+            }
+            input = BufferedReader(InputStreamReader(socket.getInputStream()))
+
+            if(input != null) {
+                val response = input!!.readLine()
                 println("Server response: $response")
                 updateOpponentKeys(response)
             }
