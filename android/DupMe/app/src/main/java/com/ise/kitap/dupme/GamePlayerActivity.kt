@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.graphics.Color
 import android.media.SoundPool
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
@@ -393,7 +394,7 @@ class GamePlayerActivity : AppCompatActivity() {
         val soundF = soundPool.load(this, R.raw.f, 1)
         val soundG = soundPool.load(this, R.raw.g, 1)
 
-        button.setBackgroundColor(-5000055)
+        button.setBackgroundColor(Color.CYAN)
 
         when(button) {
             btnC -> soundPool.play(soundC,1F, 1F, 0, 0 , 1F)
@@ -407,7 +408,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
         object : CountDownTimer(100, 1000) {
             override fun onFinish() {
-                button.setBackgroundColor(-5000085)
+                button.setBackgroundColor(Color.GRAY)
             }
 
             override fun onTick(millisUntilFinished: Long) {}
