@@ -44,6 +44,11 @@ open class MainActivity : AppCompatActivity() {
             startMainActivity()
         }
 
+        help.setOnClickListener {
+            Helppage.visibility =View.VISIBLE
+            background.visibility = View.INVISIBLE
+        }
+
         btnFindMatch_main.setOnClickListener {
             setProgressBar(true)
             if(verifyUserInput()) {
