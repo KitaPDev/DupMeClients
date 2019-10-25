@@ -395,27 +395,7 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun flashColor(button: Button) {
-        val soundPool: SoundPool = SoundPool.Builder().setMaxStreams(7).build()
-        val soundA = soundPool.load(this, R.raw.a, 1)
-        val soundB = soundPool.load(this, R.raw.b, 1)
-        val soundC = soundPool.load(this, R.raw.c, 1)
-        val soundD = soundPool.load(this, R.raw.d, 1)
-        val soundE = soundPool.load(this, R.raw.e, 1)
-        val soundF = soundPool.load(this, R.raw.f, 1)
-        val soundG = soundPool.load(this, R.raw.g, 1)
-
         button.setBackgroundColor(Color.CYAN)
-
-        when(button) {
-            btnC -> soundPool.play(soundC,1F, 1F, 0, 0 , 1F)
-            btnD -> soundPool.play(soundD,1F, 1F, 0, 0 , 1F)
-            btnE -> soundPool.play(soundE,1F, 1F, 0, 0 , 1F)
-            btnF -> soundPool.play(soundF,1F, 1F, 0, 0 , 1F)
-            btnG -> soundPool.play(soundG,1F, 1F, 0, 0 , 1F)
-            btnA -> soundPool.play(soundA,1F, 1F, 0, 0 , 1F)
-            btnB -> soundPool.play(soundB,1F, 1F, 0, 0 , 1F)
-        }
-
         object : CountDownTimer(1000, 1000) {
             override fun onFinish() {
                 button.setBackgroundColor(Color.WHITE)
