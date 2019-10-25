@@ -154,7 +154,9 @@ class GamePlayerActivity : AppCompatActivity() {
                 val strTime = (millisUntilFinished/1000).toString()
                 Timer.text = strTime
 
-                asyncGetKey.execute()
+                if(asyncGetKey.status != AsyncTask.Status.RUNNING) {
+                        asyncGetKey.execute()
+                }
             }
         }
         timer.start()
