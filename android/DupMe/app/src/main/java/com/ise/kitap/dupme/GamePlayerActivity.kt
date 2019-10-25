@@ -19,7 +19,6 @@ class GamePlayerActivity : AppCompatActivity() {
 
     var mBoundSocketService: SocketService? = null
     var isBound = false
-    var asyncGetKey = AsyncGetKey()
 
     private var strUsername: String = ""
     private var strUsernameOpponent: String = ""
@@ -153,10 +152,6 @@ class GamePlayerActivity : AppCompatActivity() {
             override fun onTick(millisUntilFinished: Long) {
                 val strTime = (millisUntilFinished/1000).toString()
                 Timer.text = strTime
-
-                if(asyncGetKey.status != AsyncTask.Status.RUNNING) {
-                        asyncGetKey.execute()
-                }
             }
         }
         timer.start()
@@ -373,26 +368,6 @@ class GamePlayerActivity : AppCompatActivity() {
 
         override fun onServiceDisconnected(name: ComponentName?) {
             isBound = false
-        }
-    }
-
-    inner class AsyncGetKey : AsyncTask<Void, Void, String>() {
-        override fun doInBackground(vararg p0: Void?): String? {
-            val strMessage = "get_key"
-            strResponse = mBoundSocketService?.requestFromServer(strMessage)
-
-            if (strResponse != null) {
-                println(strResponse)
-                publishProgress()
-            }
-
-            return strResponse
-        }
-
-        override fun onProgressUpdate(vararg values: Void?) {
-            super.onProgressUpdate(*values)
-
-            updateOpponentKeys(strResponse.toString())
         }
     }
 }

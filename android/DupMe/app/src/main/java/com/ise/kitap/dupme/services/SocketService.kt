@@ -38,11 +38,15 @@ class SocketService : Service() {
     }
 
     fun requestFromServer(message: String): String {
-        return AsyncSocketComm(true).execute(message).get()
+        return AsyncSocketComm(1).execute(message).get()
     }
 
     fun sendToServer(message: String) {
-        AsyncSocketComm(false).execute(message)
+        AsyncSocketComm(0).execute(message)
+    }
+
+    fun receiveFromServer(): String {
+        return AsyncSocketComm(-1).execute("").get()
     }
 
     inner class ClientSocket : Runnable {
@@ -83,9 +87,9 @@ class SocketService : Service() {
         }
     }
 
-    inner class AsyncSocketComm(recvMode: Boolean) : AsyncTask<String, Void, String>() {
+    inner class AsyncSocketComm(recvMode: Int) : AsyncTask<String, Void, String>() {
 
-        var recvMode = false
+        var recvMode = 0
 
         init {
             this.recvMode = recvMode
@@ -93,7 +97,7 @@ class SocketService : Service() {
 
         override fun doInBackground(vararg strData: String): String {
 
-            if(recvMode) {
+            if(recvMode == 1) {
                 if(output != null) {
                     val strMessage = strData[0]
                     println("Send message: $strMessage")
@@ -109,7 +113,7 @@ class SocketService : Service() {
 
                 } else ""
 
-            } else {
+            } else if(recvMode == 0) {
                 if(output != null) {
                     val strMessage = strData[0]
                     println("Send message: $strMessage")
@@ -118,6 +122,15 @@ class SocketService : Service() {
                     output!!.flush()
                 }
                 return ""
+
+            } else {
+                return if(input != null) {
+                    val response = input!!.readLine()
+                    println("Server response: $response")
+                    response
+                } else {
+                    ""
+                }
             }
         }
     }
