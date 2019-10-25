@@ -25,7 +25,6 @@ class GamePlayerActivity : AppCompatActivity() {
     private val serverPort = 54321
 
     var socket = Socket()
-    var output: BufferedWriter? = null
     var input: BufferedReader? = null
 
     var mBoundSocketService: SocketService? = null
@@ -390,7 +389,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
     inner class AsyncReceive : AsyncTask<String, Void, String>() {
         override fun doInBackground(vararg p0: String?): String {
-            socket = Socket(serverIP, serverPort)
+            socket = mBoundSocketService!!.socket
 
             input = BufferedReader(InputStreamReader(socket.getInputStream()))
 
