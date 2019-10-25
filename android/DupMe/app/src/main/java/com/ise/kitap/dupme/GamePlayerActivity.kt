@@ -88,6 +88,7 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun secondTurn() {
+        bolPlay = !bolPlay
         bolRunThread = if(bolPlay) {
             setTimer(20000)
             enableKeys()
@@ -107,7 +108,6 @@ class GamePlayerActivity : AppCompatActivity() {
     private fun thirdTurn() {
         lsKeys.clear()
         lsKeysOpponent.clear()
-        bolPlay = !bolPlay
 
         bolRunThread = if(bolPlay) {
             setTimer(10000)
@@ -126,6 +126,7 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun fourthTurn() {
+        bolPlay = !bolPlay
         bolRunThread = if(bolPlay) {
             setTimer(20000)
             enableKeys()
@@ -145,7 +146,6 @@ class GamePlayerActivity : AppCompatActivity() {
     private fun setTimer(long: Long){
         val timer = object : CountDownTimer(long, 1000) {
             override fun onFinish() {
-                bolPlay = !bolPlay
                 bolNextTurn = true
                 playGame()
             }
