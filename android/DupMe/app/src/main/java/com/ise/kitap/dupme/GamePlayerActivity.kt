@@ -163,7 +163,7 @@ class GamePlayerActivity : AppCompatActivity() {
                 val strTime = (millisUntilFinished/1000).toString()
                 Timer.text = strTime
 
-                if(!bolPlay) {
+                if(!bolPlay && asyncReceive.status != AsyncTask.Status.RUNNING) {
                     asyncReceive.execute()
                 }
             }
