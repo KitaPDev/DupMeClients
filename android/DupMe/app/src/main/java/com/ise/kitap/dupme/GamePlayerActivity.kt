@@ -25,12 +25,6 @@ class GamePlayerActivity : AppCompatActivity() {
 
     val context: GamePlayerActivity = this
 
-    private val serverIP = "192.168.43.61"
-    private val serverPort = 54321
-
-    var socket = Socket()
-    var input: BufferedReader? = null
-
     var mBoundSocketService: SocketService? = null
     var isBound = false
 
@@ -159,15 +153,9 @@ class GamePlayerActivity : AppCompatActivity() {
     private fun setTimer(long: Long) {
         val timer = object : CountDownTimer(long, 1000) {
             override fun onFinish() {
-                if(mBoundSocketService?.receiveFromServer().equals("RST")) {
-                    val intent = Intent(context, FindMatchActivity::class.java)
-                    startActivity(intent)
-                }
                 bolNextTurn = true
 
-                if(!bolPlay) {
-                    playOpponentKeys()
-                }
+                playOpponentKeys()
 
                 object : CountDownTimer(1000, 1000) {
                     override fun onFinish() {
@@ -187,6 +175,10 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun playOpponentKeys() {
+        if(mBoundSocketService?.receiveFromServer().equals("RST")) {
+            val intent = Intent(context, FindMatchActivity::class.java)
+            startActivity(intent)
+        }
         val strKeys = mBoundSocketService?.requestFromServer("get_keys")
         val lsKeys = strKeys?.split(' ')
 
