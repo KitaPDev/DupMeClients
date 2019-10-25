@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.IBinder
 import android.view.View
+import android.widget.Button
 import com.ise.kitap.dupme.lib.SharedPreference
 import com.ise.kitap.dupme.services.SocketService
 import kotlinx.android.synthetic.main.activity_gameplayer.*
@@ -358,15 +359,15 @@ class GamePlayerActivity : AppCompatActivity() {
         timer.start()
     }
 
-    fun updateOpponentKeys(response: String) {
+    private fun updateOpponentKeys(response: String) {
         when(response) {
-            "C" -> btnC.performClick()
-            "D" -> btnD.performClick()
-            "E" -> btnE.performClick()
-            "F" -> btnF.performClick()
-            "G" -> btnG.performClick()
-            "A" -> btnA.performClick()
-            "B" -> btnB.performClick()
+            "C" -> flashColor(btnC)
+            "D" -> flashColor(btnD)
+            "E" -> flashColor(btnE)
+            "F" -> flashColor(btnF)
+            "G" -> flashColor(btnG)
+            "A" -> flashColor(btnA)
+            "B" -> flashColor(btnB)
         }
 
         if(lsKeys.isNotEmpty()) {
@@ -376,6 +377,37 @@ class GamePlayerActivity : AppCompatActivity() {
             }
         }
         lsKeysOpponent.add(response)
+    }
+
+    private fun flashColor(button: Button) {
+        val soundPool: SoundPool = SoundPool.Builder().setMaxStreams(7).build()
+        val soundA = soundPool.load(this, R.raw.a, 1)
+        val soundB = soundPool.load(this, R.raw.b, 1)
+        val soundC = soundPool.load(this, R.raw.c, 1)
+        val soundD = soundPool.load(this, R.raw.d, 1)
+        val soundE = soundPool.load(this, R.raw.e, 1)
+        val soundF = soundPool.load(this, R.raw.f, 1)
+        val soundG = soundPool.load(this, R.raw.g, 1)
+
+        button.setBackgroundColor(0x00FFFF)
+
+        when(button) {
+            btnC -> soundPool.play(soundC,1F, 1F, 0, 0 , 1F)
+            btnD -> soundPool.play(soundD,1F, 1F, 0, 0 , 1F)
+            btnE -> soundPool.play(soundE,1F, 1F, 0, 0 , 1F)
+            btnF -> soundPool.play(soundF,1F, 1F, 0, 0 , 1F)
+            btnG -> soundPool.play(soundG,1F, 1F, 0, 0 , 1F)
+            btnA -> soundPool.play(soundA,1F, 1F, 0, 0 , 1F)
+            btnB -> soundPool.play(soundB,1F, 1F, 0, 0 , 1F)
+        }
+
+        object : CountDownTimer(100, 1000) {
+            override fun onFinish() {
+                button.setBackgroundColor(0xE0E0E0)
+            }
+
+            override fun onTick(millisUntilFinished: Long) {}
+        }.start()
     }
 
     private fun finishMatch() {
