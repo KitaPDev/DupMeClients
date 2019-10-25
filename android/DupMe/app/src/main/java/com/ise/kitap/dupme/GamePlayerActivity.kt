@@ -187,7 +187,9 @@ class GamePlayerActivity : AppCompatActivity() {
 
         if (iterator != null) {
             while(iterator.hasNext()) {
-                updateOpponentKeys(iterator.next())
+                if(updateOpponentKeys(iterator.next())) {
+                    continue
+                }
             }
         }
     }
@@ -359,7 +361,7 @@ class GamePlayerActivity : AppCompatActivity() {
         timer.start()
     }
 
-    private fun updateOpponentKeys(response: String) {
+    private fun updateOpponentKeys(response: String): Boolean {
         when(response) {
             "C" -> flashColor(btnC)
             "D" -> flashColor(btnD)
@@ -377,6 +379,8 @@ class GamePlayerActivity : AppCompatActivity() {
             }
         }
         lsKeysOpponent.add(response)
+
+        return true
     }
 
     private fun flashColor(button: Button) {
@@ -389,7 +393,7 @@ class GamePlayerActivity : AppCompatActivity() {
         val soundF = soundPool.load(this, R.raw.f, 1)
         val soundG = soundPool.load(this, R.raw.g, 1)
 
-        button.setBackgroundColor(0x00FFFF)
+        button.setBackgroundColor(-5000055)
 
         when(button) {
             btnC -> soundPool.play(soundC,1F, 1F, 0, 0 , 1F)
@@ -403,7 +407,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
         object : CountDownTimer(100, 1000) {
             override fun onFinish() {
-                button.setBackgroundColor(0xE0E0E0)
+                button.setBackgroundColor(-5000085)
             }
 
             override fun onTick(millisUntilFinished: Long) {}
