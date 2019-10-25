@@ -45,7 +45,7 @@ class SocketService : Service() {
         AsyncSocketComm(0).execute(message)
     }
 
-    fun receiveFromServer(): String {
+    fun recieveFromServer(): String {
         return AsyncSocketComm(-1).execute("").get()
     }
 

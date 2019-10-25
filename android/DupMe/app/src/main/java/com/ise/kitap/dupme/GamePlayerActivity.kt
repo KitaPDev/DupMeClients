@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.media.SoundPool
-import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -19,6 +18,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
     var mBoundSocketService: SocketService? = null
     var isBound = false
+    var receiveDataThread = RecieveDataThread(this)
 
     private var strUsername: String = ""
     private var strUsernameOpponent: String = ""
@@ -152,6 +152,10 @@ class GamePlayerActivity : AppCompatActivity() {
             override fun onTick(millisUntilFinished: Long) {
                 val strTime = (millisUntilFinished/1000).toString()
                 Timer.text = strTime
+
+                if(!bolPlay) {
+                    receiveDataThread.run()
+                }
             }
         }
         timer.start()
@@ -368,6 +372,20 @@ class GamePlayerActivity : AppCompatActivity() {
 
         override fun onServiceDisconnected(name: ComponentName?) {
             isBound = false
+        }
+    }
+
+    inner class RecieveDataThread(context: GamePlayerActivity) : Runnable {
+
+        var context: GamePlayerActivity? = null
+
+        init {
+            this.context = context
+        }
+
+        override fun run() {
+            val strData = context?.mBoundSocketService?.recieveFromServer()
+            context?.updateOpponentKeys(strData.toString())
         }
     }
 }
