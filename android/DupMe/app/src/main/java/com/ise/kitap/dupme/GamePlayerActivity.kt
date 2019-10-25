@@ -23,6 +23,8 @@ import java.net.Socket
 
 class GamePlayerActivity : AppCompatActivity() {
 
+    val context: GamePlayerActivity = this
+
     private val serverIP = "192.168.43.61"
     private val serverPort = 54321
 
@@ -157,6 +159,10 @@ class GamePlayerActivity : AppCompatActivity() {
     private fun setTimer(long: Long) {
         val timer = object : CountDownTimer(long, 1000) {
             override fun onFinish() {
+                if(mBoundSocketService?.receiveFromServer().equals("RST")) {
+                    val intent = Intent(context, FindMatchActivity::class.java)
+                    startActivity(intent)
+                }
                 bolNextTurn = true
 
                 if(!bolPlay) {
