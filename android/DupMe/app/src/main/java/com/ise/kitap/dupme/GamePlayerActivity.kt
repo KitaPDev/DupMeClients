@@ -385,13 +385,14 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun flashColor(button: Button){
-        button.setBackgroundColor(Color.CYAN)
         object : CountDownTimer(1000, 1000) {
             override fun onFinish() {
                 button.setBackgroundColor(Color.WHITE)
             }
 
-            override fun onTick(millisUntilFinished: Long) {}
+            override fun onTick(millisUntilFinished: Long) {
+                button.setBackgroundColor(Color.CYAN)
+            }
         }.start()
     }
 
