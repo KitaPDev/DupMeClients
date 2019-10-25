@@ -396,6 +396,6 @@ class GamePlayerActivity : AppCompatActivity() {
             updateOpponentKeys(input!!.readLine())
 
             return ""
-        }
+         }
     }
 }
