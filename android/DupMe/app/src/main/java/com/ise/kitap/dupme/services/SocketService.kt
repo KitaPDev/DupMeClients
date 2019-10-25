@@ -6,6 +6,7 @@ import android.os.AsyncTask
 import android.os.Binder
 import android.os.IBinder
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.ise.kitap.dupme.GamePlayerActivity
 import java.io.*
 import java.net.Socket
 
@@ -45,7 +46,7 @@ class SocketService : Service() {
         AsyncSocketComm(0).execute(message)
     }
 
-    fun recieveFromServer(): String {
+    fun receiveFromServer(context: GamePlayerActivity): String {
         return AsyncSocketComm(-1).execute("").get()
     }
 

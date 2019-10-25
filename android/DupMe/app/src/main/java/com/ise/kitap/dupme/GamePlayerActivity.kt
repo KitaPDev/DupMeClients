@@ -18,7 +18,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
     var mBoundSocketService: SocketService? = null
     var isBound = false
-    var receiveDataThread = RecieveDataThread(this)
+    var receiveDataThread = ReceiveDataThread(this)
 
     private var strUsername: String = ""
     private var strUsernameOpponent: String = ""
@@ -33,6 +33,7 @@ class GamePlayerActivity : AppCompatActivity() {
     private var bolRunThread = false
 
     private var strResponse: String? = ""
+    private var countTicks = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -153,9 +154,11 @@ class GamePlayerActivity : AppCompatActivity() {
                 val strTime = (millisUntilFinished/1000).toString()
                 Timer.text = strTime
 
-                if(!bolPlay) {
+                if(!bolPlay && countTicks == 2) {
                     receiveDataThread.run()
+                    countTicks = 0
                 }
+                countTicks += 1
             }
         }
         timer.start()
@@ -325,7 +328,7 @@ class GamePlayerActivity : AppCompatActivity() {
         timer.start()
     }
 
-    private fun updateOpponentKeys(response: String) {
+    fun updateOpponentKeys(response: String) {
         when(response) {
             "C" -> btnC.performClick()
             "D" -> btnD.performClick()
@@ -375,7 +378,7 @@ class GamePlayerActivity : AppCompatActivity() {
         }
     }
 
-    inner class RecieveDataThread(context: GamePlayerActivity) : Runnable {
+    inner class ReceiveDataThread(context: GamePlayerActivity) : Runnable {
 
         var context: GamePlayerActivity? = null
 
@@ -384,7 +387,7 @@ class GamePlayerActivity : AppCompatActivity() {
         }
 
         override fun run() {
-            val strData = context?.mBoundSocketService?.recieveFromServer()
+            val strData = context?.mBoundSocketService?.receiveFromServer(context!!)
             context?.updateOpponentKeys(strData.toString())
         }
     }
