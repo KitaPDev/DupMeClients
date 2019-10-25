@@ -381,16 +381,12 @@ class GamePlayerActivity : AppCompatActivity() {
     inner class AsyncGetKey : AsyncTask<Void, String, Void>() {
         override fun doInBackground(vararg p0: Void?): Void {
             while(true) {
+                val strMessage = "get_key"
+                strResponse = mBoundSocketService?.requestFromServer(strMessage)
 
-                if(bolRunThread) {
-
-                    val strMessage = "get_key"
-                    strResponse = mBoundSocketService?.requestFromServer(strMessage)
-
-                    if (strResponse != null) {
-                        println(strResponse)
-                        publishProgress(strResponse)
-                    }
+                if (strResponse != null) {
+                    println(strResponse)
+                    publishProgress(strResponse)
                 }
             }
         }
