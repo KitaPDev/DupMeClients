@@ -29,6 +29,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
     var mBoundSocketService: SocketService? = null
     var isBound = false
+    var receiveThread = ReceiveThread(this)
     var asyncReceive = AsyncReceive()
 
     private var strUsername: String = ""
@@ -80,6 +81,8 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun firstTurn() {
+        receiveThread.run()
+
         if(bolPlay) {
             setTimer(10000)
             enableKeys()
@@ -161,10 +164,6 @@ class GamePlayerActivity : AppCompatActivity() {
             override fun onTick(millisUntilFinished: Long) {
                 val strTime = (millisUntilFinished/1000).toString()
                 Timer.text = strTime
-
-                if(!bolPlay && asyncReceive.status != AsyncTask.Status.RUNNING) {
-                    asyncReceive.execute()
-                }
             }
         }
         timer.start()
@@ -384,6 +383,23 @@ class GamePlayerActivity : AppCompatActivity() {
 
         override fun onServiceDisconnected(name: ComponentName?) {
             isBound = false
+        }
+    }
+
+    inner class ReceiveThread(context: GamePlayerActivity) : Runnable {
+
+        var context: GamePlayerActivity? = null
+
+        init {
+            this.context = context
+        }
+
+        override fun run() {
+            while(true) {
+                if(!bolPlay && asyncReceive.status != AsyncTask.Status.RUNNING) {
+                    asyncReceive.execute()
+                }
+            }
         }
     }
 
