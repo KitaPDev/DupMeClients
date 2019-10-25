@@ -76,6 +76,8 @@ class GamePlayerActivity : AppCompatActivity() {
             setTimer(10000)
             enableKeys()
 
+            asyncGetKey.cancel(true)
+
         } else {
             setTimer(10000)
             disableKeys()
@@ -93,6 +95,7 @@ class GamePlayerActivity : AppCompatActivity() {
             setTimer(20000)
             enableKeys()
 
+            asyncGetKey.cancel(true)
             false
 
         } else {
@@ -113,6 +116,7 @@ class GamePlayerActivity : AppCompatActivity() {
             setTimer(10000)
             enableKeys()
 
+            asyncGetKey.cancel(true)
             false
 
         } else {
@@ -131,6 +135,7 @@ class GamePlayerActivity : AppCompatActivity() {
             setTimer(20000)
             enableKeys()
 
+            asyncGetKey.cancel(true)
             false
 
         } else {
