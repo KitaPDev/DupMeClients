@@ -60,8 +60,6 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun playGame() {
-        asyncGetKey.execute()
-
         if(bolNextTurn) {
             when(turn) {
                 0 -> firstTurn()
@@ -365,6 +363,7 @@ class GamePlayerActivity : AppCompatActivity() {
             val strResponse1 = mBoundSocketService!!.requestFromServer("ready")
 
             if(strResponse1 == "1") {
+                asyncGetKey.execute()
                 playGame()
             }
         }
