@@ -32,9 +32,6 @@ class GamePlayerActivity : AppCompatActivity() {
     private var bolNextTurn = true
     private var bolRunThread = false
 
-    private var strResponse: String? = ""
-    private var countTicks = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gameplayer)
@@ -154,11 +151,9 @@ class GamePlayerActivity : AppCompatActivity() {
                 val strTime = (millisUntilFinished/1000).toString()
                 Timer.text = strTime
 
-                if(!bolPlay && countTicks == 2) {
+                if(!bolPlay) {
                     receiveDataThread.run()
-                    countTicks = 0
                 }
-                countTicks += 1
             }
         }
         timer.start()
@@ -387,8 +382,11 @@ class GamePlayerActivity : AppCompatActivity() {
         }
 
         override fun run() {
-            val strData = context?.mBoundSocketService?.receiveFromServer(context!!)
-            context?.updateOpponentKeys(strData.toString())
+            if(context?.mBoundSocketService?.input != null) {
+                val response = context?.mBoundSocketService?.input!!.readLine()
+                println("Server response: $response")
+                updateOpponentKeys(response)
+            }
         }
     }
 }
