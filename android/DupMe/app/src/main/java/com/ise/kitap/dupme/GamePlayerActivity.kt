@@ -189,17 +189,7 @@ class GamePlayerActivity : AppCompatActivity() {
         if (iterator != null) {
             while(iterator.hasNext()) {
                 if(updateOpponentKeys(iterator.next())) {
-                    var done = false
-                    object : CountDownTimer(1000, 1000) {
-                        override fun onFinish() {
-                            done = true
-                        }
-
-                        override fun onTick(millisUntilFinished: Long) {}
-                    }.start()
-                    while(!done) {
-                        continue
-                    }
+                    continue
                 }
             }
         }
@@ -394,7 +384,7 @@ class GamePlayerActivity : AppCompatActivity() {
         return true
     }
 
-    private fun flashColor(button: Button) {
+    private fun flashColor(button: Button){
         button.setBackgroundColor(Color.CYAN)
         object : CountDownTimer(1000, 1000) {
             override fun onFinish() {
