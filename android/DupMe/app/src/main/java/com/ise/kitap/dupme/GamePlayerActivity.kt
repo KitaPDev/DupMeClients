@@ -153,9 +153,12 @@ class GamePlayerActivity : AppCompatActivity() {
     private fun setTimer(long: Long) {
         val timer = object : CountDownTimer(long, 1000) {
             override fun onFinish() {
+
                 bolNextTurn = true
 
-                playOpponentKeys()
+                if(!bolPlay) {
+                    playOpponentKeys()
+                }
 
                 object : CountDownTimer(1000, 1000) {
                     override fun onFinish() {
@@ -175,10 +178,6 @@ class GamePlayerActivity : AppCompatActivity() {
     }
 
     private fun playOpponentKeys() {
-        if(mBoundSocketService?.receiveFromServer().equals("RST")) {
-            val intent = Intent(context, FindMatchActivity::class.java)
-            startActivity(intent)
-        }
         val strKeys = mBoundSocketService?.requestFromServer("get_keys")
         val lsKeys = strKeys?.split(' ')
 
