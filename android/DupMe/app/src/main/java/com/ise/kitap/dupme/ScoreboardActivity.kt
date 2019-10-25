@@ -56,6 +56,7 @@ class ScoreboardActivity : AppCompatActivity() {
 
         btnLeave.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
+            mBoundSocketService?.sendToServer("close")
         }
     }
 
