@@ -406,9 +406,9 @@ class GamePlayerActivity : AppCompatActivity() {
             btnB -> soundPool.play(soundB,1F, 1F, 0, 0 , 1F)
         }
 
-        object : CountDownTimer(100, 1000) {
+        object : CountDownTimer(1000, 1000) {
             override fun onFinish() {
-                button.setBackgroundColor(Color.GRAY)
+                button.setBackgroundColor(Color.WHITE)
             }
 
             override fun onTick(millisUntilFinished: Long) {}
