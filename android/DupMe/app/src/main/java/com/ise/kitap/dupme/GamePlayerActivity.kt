@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.media.SoundPool
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -16,7 +17,6 @@ import kotlinx.android.synthetic.main.activity_gameplayer.*
 import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.InputStreamReader
-import java.io.OutputStreamWriter
 import java.net.Socket
 
 class GamePlayerActivity : AppCompatActivity() {
@@ -30,7 +30,7 @@ class GamePlayerActivity : AppCompatActivity() {
 
     var mBoundSocketService: SocketService? = null
     var isBound = false
-    var receiveDataThread = ReceiveDataThread(this)
+    var asyncReceive = AsyncReceive()
 
     private var strUsername: String = ""
     private var strUsernameOpponent: String = ""
@@ -164,7 +164,7 @@ class GamePlayerActivity : AppCompatActivity() {
                 Timer.text = strTime
 
                 if(!bolPlay) {
-                    receiveDataThread.run()
+                    asyncReceive.execute()
                 }
             }
         }
@@ -332,10 +332,6 @@ class GamePlayerActivity : AppCompatActivity() {
             override fun onTick(millisUntilFinished: Long) {
                val strTime = (millisUntilFinished/1000).toString()
                 Timer.text = strTime
-
-                if(!bolPlay) {
-                    receiveDataThread.run()
-                }
             }
 
         }
@@ -392,25 +388,15 @@ class GamePlayerActivity : AppCompatActivity() {
         }
     }
 
-    inner class ReceiveDataThread(context: GamePlayerActivity) : Runnable {
+    inner class AsyncReceive : AsyncTask<String, Void, String>() {
+        override fun doInBackground(vararg p0: String?): String {
+            socket = Socket(serverIP, serverPort)
 
-        var context: GamePlayerActivity? = null
-
-        init {
-            this.context = context
-        }
-
-        override fun run() {
-            if(!socket.isConnected) {
-                socket = Socket(serverIP, serverPort)
-            }
             input = BufferedReader(InputStreamReader(socket.getInputStream()))
 
-            if(input != null) {
-                val response = input!!.readLine()
-                println("Server response: $response")
-                updateOpponentKeys(response)
-            }
+            updateOpponentKeys(input!!.readLine())
+
+            return ""
         }
     }
 }
